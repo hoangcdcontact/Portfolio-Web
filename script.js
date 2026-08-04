@@ -577,10 +577,11 @@ document.querySelectorAll('.ba-label').forEach(label => {
     }
 
     // --- email capture -------------------------------------------------------
-    // No backend here: submitting opens the visitor's mail client with the
-    // lead already written out. Point FORM_ENDPOINT at a form service
-    // (Formspree, Basin, …) to collect silently instead.
-    const FORM_ENDPOINT = '';
+    // Web3Forms relays the submission to the inbox behind the access_key
+    // carried in the form's hidden fields. If the request fails for any
+    // reason we fall back to the visitor's own mail client below, so a
+    // dead relay never costs a lead.
+    const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
 
     const form = document.getElementById('leadForm');
     const input = document.getElementById('leadEmail');
@@ -600,18 +601,35 @@ document.querySelectorAll('.ba-label').forEach(label => {
         msg.classList.remove('is-error');
 
         if (FORM_ENDPOINT) {
+            const btn = form.querySelector('button[type="submit"]');
+            const btnLabel = btn ? btn.textContent : '';
+
+            // Carries the hidden access_key / subject / from_name along with
+            // the address. An unticked honeypot is simply absent from FormData.
+            const payload = Object.fromEntries(new FormData(form).entries());
+            payload.email = email;
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Đang gửi…'; }
+            msg.textContent = 'Đang gửi…';
+
             try {
                 const res = await fetch(FORM_ENDPOINT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                    body: JSON.stringify({ email })
+                    body: JSON.stringify(payload)
                 });
-                if (!res.ok) throw new Error(res.status);
+                // Web3Forms answers 200 with { success: false } on a bad key,
+                // so the status alone is not proof the lead went through.
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || data.success === false) throw new Error(data.message || res.status);
+
                 form.reset();
                 msg.textContent = 'Đã nhận email của bạn, mình sẽ liên hệ sớm!';
             } catch {
                 msg.textContent = 'Gửi không thành công. Bạn email trực tiếp tới ' + MAIL_TO + ' giúp mình nhé.';
                 msg.classList.add('is-error');
+            } finally {
+                if (btn) { btn.disabled = false; btn.textContent = btnLabel; }
             }
             return;
         }

@@ -2066,7 +2066,15 @@ input:focus-visible,
     outline-offset: 1px;
 }
 
+/* Never rendered. Bots fill it in, the submit handler drops those. */
+.hp-field {
+    display: none !important;
+}
+
 .funnel-form-row button {
+    /* Held wide enough for the "Đang gửi…" state, so the row does not
+       reflow the moment the request starts. */
+    min-width: 118px;
     padding: 0.75rem 1.7rem;
     font-size: 15px;
     font-weight: 600;
@@ -2079,7 +2087,18 @@ input:focus-visible,
     cursor: pointer;
     transition: background-color var(--t-fast) var(--ease-in-out),
                 color var(--t-fast) var(--ease-in-out),
+                opacity var(--t-fast) var(--ease-in-out),
                 scale var(--t-fast) var(--ease-in-out);
+}
+
+.funnel-form-row button:disabled {
+    opacity: 0.62;
+    cursor: wait;
+}
+
+.funnel-form-row button:disabled:hover {
+    background: #14110d;
+    color: #fff;
 }
 
 .funnel-form-row button:hover {

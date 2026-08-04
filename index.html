@@ -769,6 +769,15 @@
             </div>
 
             <form class="funnel-form" id="leadForm" novalidate>
+                <!-- Web3Forms. The access key is a public, client-side key by
+                     design; it identifies the destination inbox, it is not a
+                     secret. Rotate it at web3forms.com if it gets abused. -->
+                <input type="hidden" name="access_key" value="d31ed5b8-4268-4fab-b37d-9f4172bad294">
+                <input type="hidden" name="subject" value="Lead moi tu website portfolio">
+                <input type="hidden" name="from_name" value="Portfolio Cao Duy Hoang">
+                <!-- Honeypot: bots tick it, humans never see it. -->
+                <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
                 <label class="funnel-form-label" for="leadEmail">Hoặc để lại email, tôi sẽ liên hệ lại</label>
                 <div class="funnel-form-row">
                     <input type="email" id="leadEmail" name="email" required
