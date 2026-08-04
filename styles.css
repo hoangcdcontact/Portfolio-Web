@@ -1,3 +1,47 @@
+/* FZ Poppins: the Vietnamese-localised cut, self-hosted. Google's Poppins
+   carries Vietnamese in latin-ext but its composed diacritics sit wrong on
+   several glyphs, which is what this build fixes. Only the five weights the
+   page actually uses are shipped; italics are not used anywhere. */
+@font-face {
+    font-family: 'FZ Poppins';
+    src: url('assets/fonts/fz-poppins-300.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FZ Poppins';
+    src: url('assets/fonts/fz-poppins-400.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FZ Poppins';
+    src: url('assets/fonts/fz-poppins-500.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FZ Poppins';
+    src: url('assets/fonts/fz-poppins-600.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FZ Poppins';
+    src: url('assets/fonts/fz-poppins-700.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -25,10 +69,10 @@
     --frame: linear-gradient(158deg, #1e1c1a 0%, #141312 55%, #0f0e0d 100%);
     --glow: radial-gradient(circle, rgba(201, 174, 144, 0.16) 0%, rgba(141, 116, 88, 0.08) 45%, rgba(0, 0, 0, 0) 70%);
     /* Faint dot matrix, as in the reference frames. */
-    --dots: radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    --dots: radial-gradient(rgba(255, 255, 255, 0.12) 1.3px, transparent 1.3px);
     /* One family for the whole page. Hierarchy is carried by weight
        (200-700), never by swapping typeface. */
-    --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-sans: 'FZ Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     /* Reserved for the hero's "Creative Portfolio" and nothing else. */
     --font-accent: 'Playfair Display', Georgia, serif;
     /* Metadata keeps its own token so tracking stays tunable, but it is
@@ -78,13 +122,71 @@ body {
     /* Dot matrix over flat black, as in the reference. */
     background-color: var(--bg-primary);
     background-image: var(--dots);
-    background-size: 22px 22px;
+    background-size: 26px 26px;
+    background-attachment: fixed;
     font-size: var(--step-body);
     line-height: 1.65;
     letter-spacing: -0.006em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+}
+
+/* ---------------------------------------------------------------------------
+   Ambient backdrop. Two fixed, pointer-events-none layers sitting behind
+   every section: soft champagne light pools, then a scatter of accent
+   dots. Fixed means each is rasterised once and merely composited while
+   the page scrolls, so neither costs repaints the way a scrolling
+   gradient would. Both sit at z-index -1, which paints above the page
+   canvas but below all section content.
+   --------------------------------------------------------------------------- */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-image:
+        /* upper right, the brightest pool */
+        radial-gradient(660px circle at 86% 10%, rgba(201, 174, 144, 0.2), transparent 64%),
+        /* left flank, holds the eye at mid page */
+        radial-gradient(580px circle at 3% 42%, rgba(201, 174, 144, 0.13), transparent 66%),
+        /* low centre, warms the fold between sections */
+        radial-gradient(820px circle at 56% 88%, rgba(141, 116, 88, 0.15), transparent 68%),
+        /* far right, keeps the edge from going dead flat */
+        radial-gradient(460px circle at 99% 70%, rgba(201, 174, 144, 0.11), transparent 62%);
+}
+
+/* Accent dots. Placed along the margins and away from the centre column
+   so they never sit behind running text. Sizes and opacities vary so the
+   scatter reads as incidental rather than as a pattern. */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    /* One knob for the whole scatter, easier to tune than 16 alphas. */
+    opacity: 0.82;
+    background-repeat: no-repeat;
+    background-image:
+        radial-gradient(circle 3px   at 7% 14%,  rgba(201, 174, 144, 0.95) 0 45%, transparent 100%),
+        radial-gradient(circle 2px   at 15% 32%, rgba(255, 255, 255, 0.6)  0 45%, transparent 100%),
+        radial-gradient(circle 3.5px at 4% 57%,  rgba(201, 174, 144, 0.75) 0 45%, transparent 100%),
+        radial-gradient(circle 2px   at 12% 79%, rgba(255, 255, 255, 0.5)  0 45%, transparent 100%),
+        radial-gradient(circle 2px   at 22% 21%, rgba(201, 174, 144, 0.55) 0 45%, transparent 100%),
+        radial-gradient(circle 2.5px at 27% 65%, rgba(201, 174, 144, 0.6)  0 45%, transparent 100%),
+        radial-gradient(circle 2.5px at 18% 92%, rgba(255, 255, 255, 0.45) 0 45%, transparent 100%),
+        radial-gradient(circle 2px   at 33% 45%, rgba(201, 174, 144, 0.42) 0 45%, transparent 100%),
+        radial-gradient(circle 3px   at 68% 16%, rgba(201, 174, 144, 0.85) 0 45%, transparent 100%),
+        radial-gradient(circle 2px   at 79% 37%, rgba(255, 255, 255, 0.52) 0 45%, transparent 100%),
+        radial-gradient(circle 3.5px at 89% 25%, rgba(201, 174, 144, 0.8)  0 45%, transparent 100%),
+        radial-gradient(circle 2.5px at 94% 60%, rgba(201, 174, 144, 0.6)  0 45%, transparent 100%),
+        radial-gradient(circle 2px   at 73% 75%, rgba(255, 255, 255, 0.45) 0 45%, transparent 100%),
+        radial-gradient(circle 2.5px at 85% 89%, rgba(201, 174, 144, 0.62) 0 45%, transparent 100%),
+        radial-gradient(circle 2px   at 97% 8%,  rgba(255, 255, 255, 0.42) 0 45%, transparent 100%),
+        radial-gradient(circle 2px   at 62% 94%, rgba(201, 174, 144, 0.48) 0 45%, transparent 100%);
 }
 
 img,
@@ -271,6 +373,18 @@ input:focus-visible,
     z-index: 0;
     /* Lift the exposure and warm it toward the palette below. */
     filter: brightness(1.22) contrast(1.04) saturate(1.06);
+    /* object-fit: contain letterboxes the frame, which left a hard edge
+       where the footage stopped and the page black began. Feathering both
+       axes dissolves that seam. Two mask layers intersected: horizontal
+       for the sides, vertical for the foot. */
+    -webkit-mask-image:
+        linear-gradient(90deg, transparent 0%, #000 11%, #000 89%, transparent 100%),
+        linear-gradient(180deg, #000 0%, #000 58%, transparent 97%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        linear-gradient(90deg, transparent 0%, #000 11%, #000 89%, transparent 100%),
+        linear-gradient(180deg, #000 0%, #000 58%, transparent 97%);
+    mask-composite: intersect;
 }
 
 .hero-overlay {
@@ -402,20 +516,45 @@ input:focus-visible,
     }
 }
 
-/* Section Title. Hierarchy comes from scale and tracking, not from a
-   decorative bar underneath, so the old gradient rule is gone. */
+/* Section title. One treatment for every section, taken from the
+   Portfolio index: a small tracked label sitting over an oversized ghost
+   word. The label names the section, the ghost carries the scale. */
 .section-title {
-    font-size: var(--step-display);
-    text-align: center;
-    margin-bottom: var(--space-block);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    position: relative;
     display: block;
     width: 100%;
+    text-align: center;
+    /* Locked to two fifths of the ghost word beside it. Tied to the same
+       variable, so the pair keeps its ratio at every viewport instead of
+       drifting apart as the ghost scales with vw. */
+    font-size: calc(var(--ghost-size) * 0.4);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.42em;
+    /* Offsets the trailing letter-space so the label stays optically centred. */
+    text-indent: 0.42em;
+    text-transform: uppercase;
+    /* Sits over the ghost word now, so it carries full contrast rather
+       than the muted tone it had when it stood alone above it. */
     color: var(--text-primary);
-    text-wrap: balance;
+    margin-bottom: 1.5rem;
+}
+
+/* The ghost word behind each section head. A section opts in by setting
+   --ghost-text; --ghost-size tunes the scale to the word's length so a
+   long one never runs past the viewport. */
+.portfolio > .container::before,
+.showreel > .container::before,
+.services > .container::before {
+    content: var(--ghost-text);
+    align-self: center;
+    font-size: var(--ghost-size, clamp(3.5rem, 13vw, 12rem));
+    font-weight: 700;
+    line-height: 0.78;
+    letter-spacing: -0.045em;
+    color: rgba(255, 255, 255, 0.07);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
 }
 
 /* Showreel — 3D cylinder carousel */
@@ -439,11 +578,24 @@ input:focus-visible,
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: url('assets/showreel/showreel-cover.jpg') 58% 38% / cover no-repeat;
+    /* NOTE ON THE AXIS: this layer is mirrored by scaleX(-1) below, so its
+       local X runs opposite to the screen. Local `right` lands on screen
+       left, and local 0% lands on screen right. Both the position and the
+       mask below are written in local space with that flip in mind. */
+    /* Scaled past `cover` on purpose. At cover the frame barely overflows
+       the section, so background-position had almost no travel and the
+       photographer stayed stuck near the middle. Oversized, the subject
+       can be driven right out to the edge. Local `left` plus the mirror
+       below puts him on the left of the screen. */
+    background: url('assets/showreel/showreel-cover.jpg') left 30% / 142% auto no-repeat;
     filter: grayscale(68%) brightness(0.82) contrast(0.98);
     opacity: 0.55;
-    /* Mirrored, so the subject faces into the section instead of out of it. */
     transform: scaleX(-1);
+    /* A true alpha feather rather than a dark gradient painted on top, so
+       the photograph dissolves into whatever sits behind it. Transparent
+       at local 0% means it fades out toward the right of the screen. */
+    -webkit-mask-image: linear-gradient(90deg, transparent 2%, rgba(0, 0, 0, 0.35) 22%, #000 52%, #000 100%);
+    mask-image: linear-gradient(90deg, transparent 2%, rgba(0, 0, 0, 0.35) 22%, #000 52%, #000 100%);
     pointer-events: none;
 }
 
@@ -461,21 +613,44 @@ input:focus-visible,
             rgba(10, 10, 10, 0.5) 14%,
             rgba(6, 6, 6, 0.42) 62%,
             var(--bg-primary) 100%),
+        /* Eased off further: the subject now sits on the left, which is
+           exactly where this scrim was heaviest and was burying him. */
         linear-gradient(90deg,
-            rgba(6, 6, 6, 0.88) 0%,
-            rgba(6, 6, 6, 0.6) 38%,
-            rgba(6, 6, 6, 0.12) 100%);
+            rgba(6, 6, 6, 0.46) 0%,
+            rgba(6, 6, 6, 0.36) 48%,
+            rgba(6, 6, 6, 0.14) 100%);
     pointer-events: none;
 }
 
-.showreel-hint {
-    text-align: center;
-    /* Sits directly under the title, inside the title's own bottom margin. */
-    margin-top: calc(var(--space-block) * -0.62);
-    margin-bottom: 1.5rem;
-    font-size: var(--step-small);
-    letter-spacing: 0.02em;
-    color: var(--text-muted);
+/* Same head as the Portfolio index: label centred inside the ghost word. */
+.showreel > .container {
+    --ghost-text: 'SHOWREEL';
+    --ghost-size: clamp(3.5rem, 13vw, 12rem);
+    position: relative;
+    z-index: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.showreel > .container::before {
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: center;
+    position: relative;
+    z-index: -1;
+    margin-bottom: 0;
+}
+
+.showreel > .container > .section-title {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: center;
+    margin-bottom: 0;
+}
+
+.showreel > .container > .pf-groups,
+.portfolio > .container > .pf-groups {
+    grid-column: 1;
 }
 
 .reel-layout {
@@ -497,6 +672,13 @@ input:focus-visible,
     perspective: 1350px;
     user-select: none;
     overflow: hidden;
+    /* `overflow: hidden` alone sliced the cards off with a hard horizontal
+       edge top and bottom. The mask keeps the same clipping bounds but
+       dissolves the last stretch, so cards arrive and leave the ring
+       instead of being cut. Symmetric, so the ring reads as centred on the
+       stage's vertical midpoint. */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
 }
 
 /* Hover-reveal folder list */
@@ -716,7 +898,9 @@ input:focus-visible,
 /* Portfolio Section */
 .portfolio {
     padding: var(--space-section) 0;
-    background: var(--bg-primary);
+    /* Transparent so the ambient backdrop reads through. An opaque fill
+       here was covering the dot matrix on the body. */
+    background: transparent;
     position: relative;
 }
 
@@ -973,6 +1157,222 @@ input:focus-visible,
 
 .pf-nested .pf-group.open > .pf-toggle {
     height: 108px;
+}
+
+/* ---------------------------------------------------------------------------
+   Portfolio index, built after the Table-of-Content reference: a small
+   tracked label, one oversized ghost word behind, then four numbered
+   entries whose covers sit behind the numerals. The numerals come from a
+   CSS counter, so the markup and the accordion logic are untouched.
+   --------------------------------------------------------------------------- */
+/* A one-column grid whose first row holds the ghost word and the label in
+   the same cell, so the label reads as sitting inside the word rather
+   than stacked above it. */
+.portfolio > .container {
+    --ghost-text: 'PORTFOLIO';
+    /* Declared rather than left to the fallback, so .section-title can
+       derive its own size from it. */
+    --ghost-size: clamp(3.5rem, 13vw, 12rem);
+    position: relative;
+    z-index: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+/* Both need an explicit column. Given only a row, the second item was
+   auto-placed into an implicit second column and landed at the far right
+   instead of stacking on the first. */
+.portfolio > .container::before {
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: center;
+    position: relative;
+    z-index: -1;
+}
+
+.portfolio > .container > .section-title {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: center;
+    margin-bottom: 0;
+}
+
+/* The pull lives here rather than on the ghost. On the ghost it shrank
+   row 1, which threw the centred label off the word's midline by half the
+   pull. Here the entries ride up over the word's foot and row 1 keeps its
+   true height. */
+.portfolio > .container > .pf-groups {
+    grid-row: 2;
+    margin-top: -2.75rem;
+}
+
+.portfolio > .container > .pf-groups {
+    counter-reset: pf;
+    margin-top: 0;
+}
+
+.portfolio > .container > .pf-groups > .pf-group {
+    counter-increment: pf;
+}
+
+@media (min-width: 900px) {
+    .portfolio > .container > .pf-groups {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+    }
+}
+
+/* The entry itself: cover behind, numeral and label stacked at the foot.
+   Flow layout rather than the absolute positioning the tiles used, so the
+   numeral can never overlap a two-line folder name. */
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    aspect-ratio: 3 / 4.15;
+    padding: 1.4rem;
+    border-radius: var(--r-md);
+}
+
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle::before {
+    content: counter(pf, decimal-leading-zero);
+    position: relative;
+    z-index: 2;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    transition: color var(--t-med) var(--ease-in-out);
+}
+
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle > .pf-label {
+    position: relative;
+    z-index: 2;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    transform: none;
+    gap: 0.35rem;
+}
+
+/* Uppercase and always legible, as in the reference. The old treatment
+   hid the count until hover, which left the entry ambiguous at rest. */
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle .pf-group-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 0.015em;
+    text-transform: uppercase;
+    opacity: 1;
+    padding-bottom: 0;
+}
+
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle .pf-count {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
+
+/* Cover pushed right back so it reads as texture behind the numeral. */
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle .pf-cover {
+    filter: grayscale(60%) brightness(0.4);
+}
+
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle:hover .pf-cover {
+    filter: grayscale(0%) brightness(0.66);
+    transform: scale(1.05);
+}
+
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle .pf-veil {
+    background: linear-gradient(180deg,
+        rgba(10, 10, 10, 0.35) 0%,
+        rgba(10, 10, 10, 0.55) 45%,
+        rgba(8, 8, 8, 0.9) 100%);
+}
+
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle:hover::before {
+    color: var(--accent-color);
+}
+
+/* Arrow moves to the top corner: the foot of the card now belongs to the
+   numeral and the label. */
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle .pf-arrow {
+    top: 1.1rem;
+    right: 1.1rem;
+    bottom: auto;
+    width: 1.8rem;
+    height: 1.8rem;
+    z-index: 2;
+}
+
+/* Open state: the tall entry collapses to a bar, numeral and label side
+   by side so the 130px height still holds them. */
+.portfolio > .container > .pf-groups > .pf-group.open > .pf-toggle {
+    flex-direction: row;
+    align-items: center;
+    /* flex-end was pinning the numeral to the right edge once the axis
+       turned horizontal. */
+    justify-content: flex-start;
+    gap: 1.35rem;
+    height: 118px;
+    padding: 1.4rem 1.6rem;
+}
+
+.portfolio > .container > .pf-groups > .pf-group.open > .pf-toggle::before {
+    font-size: 2.4rem;
+    margin-bottom: 0;
+    color: var(--accent-color);
+}
+
+.portfolio > .container > .pf-groups > .pf-group.open > .pf-toggle .pf-arrow {
+    top: 50%;
+    margin-top: -0.9rem;
+}
+
+/* With one entry expanded, the whole index becomes a vertical list. Left
+   as a four-column grid, the open entry spans every column and the
+   remaining tiles strand themselves beside three empty cells. */
+.portfolio > .container > .pf-groups:has(> .pf-group.open) {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+}
+
+.portfolio > .container > .pf-groups:has(> .pf-group.open) > .pf-group:not(.open) > .pf-toggle {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1.35rem;
+    aspect-ratio: auto;
+    height: 92px;
+    padding: 1.2rem 1.6rem;
+}
+
+.portfolio > .container > .pf-groups:has(> .pf-group.open) > .pf-group:not(.open) > .pf-toggle::before {
+    font-size: 1.9rem;
+    margin-bottom: 0;
+}
+
+.portfolio > .container > .pf-groups:has(> .pf-group.open) > .pf-group:not(.open) > .pf-toggle .pf-arrow {
+    top: 50%;
+    margin-top: -0.9rem;
+}
+
+@media (max-width: 899px) {
+    .portfolio > .container > .pf-groups {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.9rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .portfolio > .container > .pf-groups {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Photo gallery inside a folder */
@@ -1326,7 +1726,16 @@ input:focus-visible,
 /* Branding Approach (About) Section. The third font family (DM Sans) is
    gone; the page runs on one sans now. */
 .branding-approach {
-    background: var(--frame);
+    /* Translucent, so the dot matrix and the light pools behind it stay
+       readable through the panel. Runs vertically now and starts fully
+       transparent: the panel used to begin with a hard horizontal seam
+       against the hero above it, and this feathers that top edge in. */
+    background: linear-gradient(180deg,
+        rgba(26, 24, 22, 0) 0%,
+        rgba(24, 22, 21, 0.4) 7%,
+        rgba(21, 20, 19, 0.74) 18%,
+        rgba(18, 17, 16, 0.76) 82%,
+        rgba(15, 14, 13, 0.78) 100%);
     color: var(--text-primary);
     overflow-x: hidden;
     font-family: var(--font-sans);
@@ -1634,7 +2043,7 @@ input:focus-visible,
 /* Services / Experience Section */
 .services {
     padding: var(--space-section) 0;
-    background: var(--bg-primary);
+    background: transparent;
     position: relative;
     overflow: hidden;
 }
@@ -1653,6 +2062,21 @@ input:focus-visible,
    experience blocks run down the right. `display: contents` on the
    wrapper lets the still and the education card join the section's own
    grid without touching the markup. */
+/* "Kinh Nghiệm" is far longer than "Portfolio" or "Showreel", so its
+   ghost runs at a smaller scale to stay inside the container. */
+.services > .container {
+    --ghost-text: 'KINH NGHIỆM';
+    --ghost-size: clamp(2.2rem, 8.2vw, 7rem);
+}
+
+/* This container is a grid only at desktop. Below that the pseudo-element
+   would land above the label instead of under it, so it stands down. */
+@media (max-width: 899px) {
+    .services > .container::before {
+        display: none;
+    }
+}
+
 @media (min-width: 900px) {
     .services > .container {
         display: grid;
@@ -1662,8 +2086,20 @@ input:focus-visible,
         align-items: start;
     }
 
+    /* Label and ghost share row 1, so the content rows move up by one. */
     .services > .container > .section-title {
         grid-column: 1 / -1;
+        grid-row: 1;
+        align-self: center;
+        margin-bottom: 0;
+    }
+
+    .services > .container::before {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        justify-self: center;
+        position: relative;
+        z-index: -1;
         margin-bottom: 0;
     }
 
@@ -2145,7 +2581,7 @@ input:focus-visible,
 
 /* Footer */
 .footer {
-    background: var(--bg-primary);
+    background: transparent;
     color: var(--text-muted);
     text-align: center;
     padding: 3rem 0;
