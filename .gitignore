@@ -1,0 +1,23 @@
+# Source media kept locally — the site serves everything from assets/
+Recording*.mp4
+*.ARW
+
+# Original stills superseded by files in assets/
+IMG_*.jpg
+IMG_*.JPG
+z78*.jpg
+z77*.png
+1785209640968_*.jpg
+Hình Profile.jpg
+Nền port.png
+Icon Apple.jpg
+
+# Local dev servers, not part of the deployed site
+server.js
+server.ps1
+
+# Tooling
+.claude/
+.DS_Store
+Thumbs.db
+deploy/

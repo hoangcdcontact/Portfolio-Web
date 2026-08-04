@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Production Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a class="logo" href="#home" aria-label="Cao Duy Hoàng, Production">
+                <img src="assets/brand/logo.png" alt="Cao Duy Hoàng Production">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about">Giới thiệu</a></li>
+                <li><a href="#showreel">Showreel</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#experience">Kinh nghiệm</a></li>
+                <li><a href="#contact">Liên hệ</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Cao Duy Hoàng's <span class="italic-accent">Creative Portfolio</span></h1>
+            <p class="hero-subtitle">Media Production</p>
+            <a href="#about" class="scroll-cue" aria-label="Cuộn xuống">
+                <span class="chev"></span>
+                <span class="chev"></span>
+                <span class="chev"></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- About / Branding Approach Section -->
+    <section id="about" class="branding-approach">
+        <div class="ba-wrapper">
+            <div class="ba-header">
+                <div class="ba-header-text">
+                    <p class="ba-line-1 reveal">Về bản thân</p>
+                    <p class="ba-line-2 reveal" style="transition-delay:0.1s">Personal Tone of Voice</p>
+                </div>
+                <button class="ba-plus-btn reveal-scale" style="transition-delay:0.25s" aria-label="Expand">
+                    <svg viewBox="0 0 12 12" fill="none">
+                        <line x1="6" y1="0" x2="6" y2="12" stroke="currentColor" stroke-width="1.3"/>
+                        <line x1="0" y1="6" x2="12" y2="6" stroke="currentColor" stroke-width="1.3"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="ba-content">
+                <div class="ba-left">
+                    <div class="ba-portrait reveal" style="transition-delay:0.2s">
+                        <img src="Avatar.png" alt="Cao Duy Hoàng">
+                    </div>
+                    <div class="ba-testimonial">
+                        <div class="ba-quote-mark reveal" style="transition-delay:0.3s">&ldquo;</div>
+                        <p class="ba-quote-text reveal" style="transition-delay:0.4s">Video Editor với 3+ năm kinh nghiệm thực chiến, tư duy dựng video chuẩn Marketing. Thế mạnh của tôi không dừng lại ở hậu kỳ, mà là khả năng quản lý toàn bộ quy trình sản xuất hình ảnh, từ lên ý tưởng đến sản phẩm hoàn chỉnh cuối cùng.&rdquo;</p>
+
+                        <div class="ba-skills reveal" style="transition-delay:0.5s">
+                            <p class="ba-skills-title">Kỹ năng cốt lõi</p>
+                            <ul>
+                                <li><strong>Dựng video:</strong> 3+ năm kinh nghiệm</li>
+                                <li><strong>Vận hành thiết bị:</strong> Setup ánh sáng, quay phim, làm chủ máy ảnh &amp; gimbal</li>
+                                <li><strong>Tư duy thị giác:</strong> Design, kiến thức in ấn cơ bản, bố cục &amp; layout</li>
+                            </ul>
+                        </div>
+
+                        <div class="ba-attribution reveal" style="transition-delay:0.6s">
+                            <p class="ba-name">Duy Hoàng</p>
+                            <p class="ba-role-title">Media Production</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ba-right">
+                    <div class="ba-circle-wrap">
+                        <div class="ba-circle-inner reveal-fade-only" style="transition-delay:0.4s">
+                            <svg viewBox="0 0 100 100" class="ba-circle-svg">
+                                <circle cx="50" cy="50" r="30" stroke="white" stroke-width="0.18" opacity="0.45" fill="none"/>
+                                <line class="ba-svg-line" data-key="tienky" x1="50" y1="50" x2="20.51" y2="29.35"/>
+                                <line class="ba-svg-line" data-key="trungky" x1="50" y1="50" x2="82.63" y2="34.79"/>
+                                <line class="ba-svg-line" data-key="hauky" x1="50" y1="50" x2="37.69" y2="83.83"/>
+                            </svg>
+                            <span class="ba-label reveal" data-key="tienky" style="left:12.32%;top:23.61%;transition-delay:0.6s">Tiền kì</span>
+                            <span class="ba-label reveal" data-key="trungky" style="left:91.69%;top:30.56%;transition-delay:0.75s">Trung kì</span>
+                            <span class="ba-label reveal" data-key="hauky" style="left:34.27%;top:93.23%;transition-delay:0.9s">Hậu kì</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showreel: 3D cylinder carousel -->
+    <section id="showreel" class="showreel">
+        <div class="container">
+            <h2 class="section-title">Showreel</h2>
+            <p class="showreel-hint">Bấm vào thẻ để mở thư mục · di chuột để xoay</p>
+        </div>
+        <div class="reel-layout">
+            <div class="reel-list" id="reelList">
+                <div class="reel-rows" id="reelRows"></div>
+            </div>
+            <div class="reel-stage">
+                <div class="reel-space" id="reelSpace"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 class="section-title">Portfolio</h2>
+
+            <div class="pf-groups">
+            <div class="pf-group" data-folder="ai-generate">
+                <button class="pf-toggle" aria-expanded="false">
+                    <img class="pf-cover" src="assets/ai-generate/p1-generate-ai.jpg" alt="" loading="lazy">
+                    <span class="pf-veil"></span>
+                    <span class="pf-label">
+                        <span class="pf-group-title">AI Generate</span>
+                        <span class="pf-count">4 dự án</span>
+                    </span>
+                    <span class="pf-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </button>
+                <div class="pf-body"><div class="pf-body-inner">
+                <!-- Project 01 -->
+                <article class="project">
+                    <div class="project-head">
+                        <span class="project-index">01</span>
+                        <h4 class="project-name">SaaS AI Generated</h4>
+                        <p class="project-desc">Sản xuất video quảng cáo SaaS bằng AI, từ generate hình ảnh, dựng timeline đến video hoàn chỉnh.</p>
+                    </div>
+                    <div class="project-media">
+                        <figure class="media-item media-wide">
+                            <div class="video-embed">
+                                <iframe src="https://www.youtube-nocookie.com/embed/JkqYxfFT-G0" title="SaaS AI Generated: Video Final" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <figcaption>Video Final</figcaption>
+                        </figure>
+                        <figure class="media-item">
+                            <img src="assets/ai-generate/p1-generate-ai.jpg" alt="Generate AI" loading="lazy">
+                            <figcaption>Generate AI</figcaption>
+                        </figure>
+                        <figure class="media-item">
+                            <img src="assets/ai-generate/p1-timeline-edit.jpg" alt="Timeline Edit" loading="lazy">
+                            <figcaption>Timeline Edit</figcaption>
+                        </figure>
+                    </div>
+                </article>
+
+                <!-- Project 02 -->
+                <article class="project">
+                    <div class="project-head">
+                        <span class="project-index">02</span>
+                        <h4 class="project-name">AI Video's Workflow</h4>
+                        <p class="project-desc">Quy trình biến ảnh tĩnh thành video chuyển động bằng AI. So sánh trực tiếp Before &amp; After.</p>
+                    </div>
+                    <div class="project-media media-pair">
+                        <figure class="media-item">
+                            <img src="assets/ai-generate/p2-before.jpg" alt="Before" loading="lazy">
+                            <figcaption><span class="tag tag-before">Before</span> Ảnh tĩnh gốc</figcaption>
+                        </figure>
+                        <figure class="media-item">
+                            <video src="assets/ai-generate/p2-after.mp4" controls playsinline preload="metadata"></video>
+                            <figcaption><span class="tag tag-after">After</span> Video AI chuyển động</figcaption>
+                        </figure>
+                    </div>
+                </article>
+
+                <!-- Project 03 -->
+                <article class="project">
+                    <div class="project-head">
+                        <span class="project-index">03</span>
+                        <h4 class="project-name">Long to Shorts Video</h4>
+                        <p class="project-desc">Cắt một video dài thành 12 clip short-form tối ưu cho TikTok, Reels và YouTube Shorts.</p>
+                    </div>
+                    <div class="project-media">
+                        <figure class="media-item media-wide">
+                            <img src="assets/ai-generate/p3-cover.jpg" alt="Long to Shorts Video" loading="lazy">
+                            <figcaption>12 clip shorts được tạo ra từ 1 video dài</figcaption>
+                        </figure>
+                    </div>
+                </article>
+
+                <!-- Project 04 -->
+                <article class="project">
+                    <div class="project-head">
+                        <span class="project-index">04</span>
+                        <h4 class="project-name">Sử dụng JSON Prompt</h4>
+                        <p class="project-desc">Kiểm soát output AI chính xác bằng JSON prompt, nâng chất lượng hình ảnh rõ rệt.</p>
+                    </div>
+                    <div class="project-media media-pair">
+                        <figure class="media-item">
+                            <img src="assets/ai-generate/p4-before.jpg" alt="Before" loading="lazy">
+                            <figcaption><span class="tag tag-before">Before</span> Prompt thường</figcaption>
+                        </figure>
+                        <figure class="media-item">
+                            <img src="assets/ai-generate/p4-after.jpg" alt="After" loading="lazy">
+                            <figcaption><span class="tag tag-after">After</span> JSON Prompt</figcaption>
+                        </figure>
+                    </div>
+                </article>
+                </div></div>
+            </div>
+
+            <div class="pf-group" data-folder="lighting">
+                <button class="pf-toggle" aria-expanded="false">
+                    <img class="pf-cover" src="assets/lighting/talkshow-setup.jpg" alt="" loading="lazy">
+                    <span class="pf-veil"></span>
+                    <span class="pf-label">
+                        <span class="pf-group-title">Lighting &amp; Context</span>
+                        <span class="pf-count">2 thư mục</span>
+                    </span>
+                    <span class="pf-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </button>
+                <div class="pf-body"><div class="pf-body-inner">
+                <div class="pf-groups pf-nested">
+
+                    <!-- Shooting / Photographer -->
+                    <div class="pf-group">
+                        <button class="pf-toggle" aria-expanded="false">
+                            <img class="pf-cover" src="assets/lighting/beauty-product/01.jpg" alt="" loading="lazy">
+                            <span class="pf-veil"></span>
+                            <span class="pf-label">
+                                <span class="pf-group-title">Shooting / Photographer</span>
+                                <span class="pf-count">5 danh mục · 42 ảnh</span>
+                            </span>
+                            <span class="pf-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </button>
+                        <div class="pf-body"><div class="pf-body-inner">
+                        <div class="pf-groups pf-nested">
+
+                            <div class="pf-group">
+                                <button class="pf-toggle" aria-expanded="false">
+                                    <img class="pf-cover" src="assets/lighting/accessory/01.jpg" alt="" loading="lazy">
+                                    <span class="pf-veil"></span>
+                                    <span class="pf-label">
+                                        <span class="pf-group-title">Accessory</span>
+                                        <span class="pf-count">4 ảnh</span>
+                                    </span>
+                                    <span class="pf-arrow" aria-hidden="true">
+                                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                </button>
+                                <div class="pf-body"><div class="pf-body-inner">
+                                    <div class="photo-grid">
+                                        <a class="photo" href="assets/lighting/accessory/01.jpg" target="_blank"><img src="assets/lighting/accessory/01.jpg" alt="Accessory 1" loading="lazy"></a>
+                                        <a class="photo" href="assets/lighting/accessory/02.jpg" target="_blank"><img src="assets/lighting/accessory/02.jpg" alt="Accessory 2" loading="lazy"></a>
+                                        <a class="photo" href="assets/lighting/accessory/03.jpg" target="_blank"><img src="assets/lighting/accessory/03.jpg" alt="Accessory 3" loading="lazy"></a>
+                                        <a class="photo" href="assets/lighting/accessory/04.jpg" target="_blank"><img src="assets/lighting/accessory/04.jpg" alt="Accessory 4" loading="lazy"></a>
+                                    </div>
+                                </div></div>
+                            </div>
+
+                            <div class="pf-group">
+                                <button class="pf-toggle" aria-expanded="false">
+                                    <img class="pf-cover" src="assets/lighting/beauty-product/02.jpg" alt="" loading="lazy">
+                                    <span class="pf-veil"></span>
+                                    <span class="pf-label">
+                                        <span class="pf-group-title">Beauty Product</span>
+                                        <span class="pf-count">5 ảnh</span>
+                                    </span>
+                                    <span class="pf-arrow" aria-hidden="true">
+                                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                </button>
+                                <div class="pf-body"><div class="pf-body-inner">
+                                    <div class="photo-grid">
+                                        <a class="photo" href="assets/lighting/beauty-product/01.jpg" target="_blank"><img src="assets/lighting/beauty-product/01.jpg" alt="Beauty Product 1" loading="lazy"></a>
+                                        <a class="photo" href="assets/lighting/beauty-product/02.jpg" target="_blank"><img src="assets/lighting/beauty-product/02.jpg" alt="Beauty Product 2" loading="lazy"></a>
+                                        <a class="photo" href="assets/lighting/beauty-product/03.jpg" target="_blank"><img src="assets/lighting/beauty-product/03.jpg" alt="Beauty Product 3" loading="lazy"></a>
+                                        <a class="photo" href="assets/lighting/beauty-product/04.jpg" target="_blank"><img src="assets/lighting/beauty-product/04.jpg" alt="Beauty Product 4" loading="lazy"></a>
+                                        <a class="photo" href="assets/lighting/beauty-product/05.jpg" target="_blank"><img src="assets/lighting/beauty-product/05.jpg" alt="Beauty Product 5" loading="lazy"></a>
+                                    </div>
+                                </div></div>
+                            </div>
+
+                            <div class="pf-group">
+                                <button class="pf-toggle" aria-expanded="false">
+                                    <img class="pf-cover" src="assets/lighting/model-posting/01.png" alt="" loading="lazy">
+                                    <span class="pf-veil"></span>
+                                    <span class="pf-label">
+                                        <span class="pf-group-title">Model Posting</span>
+                                        <span class="pf-count">3 ảnh</span>
+                                    </span>
+                                    <span class="pf-arrow" aria-hidden="true">
+                                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                </button>
+                                <div class="pf-body"><div class="pf-body-inner">
+                                    <div class="photo-grid">
+                                        <a class="photo" href="assets/lighting/model-posting/01.png" target="_blank"><img src="assets/lighting/model-posting/01.png" alt="Model Posting 1" loading="lazy"></a>
+                                        <a class="photo" href="assets/lighting/model-posting/02.png" target="_blank"><img src="assets/lighting/model-posting/02.png" alt="Model Posting 2" loading="lazy"></a>
+                                        <a class="photo" href="assets/lighting/model-posting/03.png" target="_blank"><img src="assets/lighting/model-posting/03.png" alt="Model Posting 3" loading="lazy"></a>
+                                    </div>
+                                </div></div>
+                            </div>
+
+                            <div class="pf-group">
+                                <button class="pf-toggle" aria-expanded="false">
+                                    <img class="pf-cover" src="assets/lighting/vespa-custom/01.jpg" alt="" loading="lazy">
+                                    <span class="pf-veil"></span>
+                                    <span class="pf-label">
+                                        <span class="pf-group-title">Vespa's Custom</span>
+                                        <span class="pf-count">22 ảnh</span>
+                                    </span>
+                                    <span class="pf-arrow" aria-hidden="true">
+                                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                </button>
+                                <div class="pf-body"><div class="pf-body-inner">
+                                    <div class="photo-grid" data-gallery="vespa-custom" data-count="22" data-ext="jpg"></div>
+                                </div></div>
+                            </div>
+
+                            <div class="pf-group">
+                                <button class="pf-toggle" aria-expanded="false">
+                                    <img class="pf-cover" src="assets/lighting/vespa-wheel/02.jpg" alt="" loading="lazy">
+                                    <span class="pf-veil"></span>
+                                    <span class="pf-label">
+                                        <span class="pf-group-title">Vespa's Wheel rim</span>
+                                        <span class="pf-count">8 ảnh</span>
+                                    </span>
+                                    <span class="pf-arrow" aria-hidden="true">
+                                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                </button>
+                                <div class="pf-body"><div class="pf-body-inner">
+                                    <div class="photo-grid" data-gallery="vespa-wheel" data-count="8" data-ext="jpg"></div>
+                                </div></div>
+                            </div>
+
+                        </div>
+                        </div></div>
+                    </div>
+
+                    <!-- Videographer -->
+                    <div class="pf-group">
+                        <button class="pf-toggle" aria-expanded="false">
+                            <img class="pf-cover" src="assets/lighting/talkshow/01.jpg" alt="" loading="lazy">
+                            <span class="pf-veil"></span>
+                            <span class="pf-label">
+                                <span class="pf-group-title">Videographer</span>
+                                <span class="pf-count">3 danh mục · 9 video</span>
+                            </span>
+                            <span class="pf-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </button>
+                        <div class="pf-body"><div class="pf-body-inner">
+                        <div class="pf-groups pf-nested">
+
+                            <!-- Product Promotion -->
+                            <div class="pf-group">
+                                <button class="pf-toggle" aria-expanded="false">
+                                    <img class="pf-cover" src="assets/lighting/beauty-product/03.jpg" alt="" loading="lazy">
+                                    <span class="pf-veil"></span>
+                                    <span class="pf-label">
+                                        <span class="pf-group-title">Product Promotion</span>
+                                        <span class="pf-count">2 series · 5 video</span>
+                                    </span>
+                                    <span class="pf-arrow" aria-hidden="true">
+                                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                </button>
+                                <div class="pf-body"><div class="pf-body-inner">
+                                    <h5 class="sub-title">FJN Series</h5>
+                                    <div class="shorts-grid">
+                                        <div class="short-embed"><iframe src="https://www.youtube-nocookie.com/embed/W2Vh_wpl7ok" title="FJN Series 1" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                        <div class="short-embed"><iframe src="https://www.youtube-nocookie.com/embed/Io6pQZYoV4o" title="FJN Series 2" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                        <div class="short-embed"><iframe src="https://www.youtube-nocookie.com/embed/skvslk_vTOw" title="FJN Series 3" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                    </div>
+                                    <h5 class="sub-title">Quần áo trẻ em</h5>
+                                    <div class="shorts-grid">
+                                        <div class="short-embed"><iframe src="https://www.youtube-nocookie.com/embed/t6GH2RWtc_8" title="Quần áo trẻ em 1" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                        <div class="short-embed"><iframe src="https://www.youtube-nocookie.com/embed/IcSH72Uxq7k" title="Quần áo trẻ em 2" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                    </div>
+                                </div></div>
+                            </div>
+
+                            <!-- Talkshow -->
+                            <div class="pf-group">
+                                <button class="pf-toggle" aria-expanded="false">
+                                    <img class="pf-cover" src="assets/lighting/talkshow/02.jpg" alt="" loading="lazy">
+                                    <span class="pf-veil"></span>
+                                    <span class="pf-label">
+                                        <span class="pf-group-title">Talkshow</span>
+                                        <span class="pf-count">3 ảnh · 1 video</span>
+                                    </span>
+                                    <span class="pf-arrow" aria-hidden="true">
+                                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                </button>
+                                <div class="pf-body"><div class="pf-body-inner">
+                                    <div class="video-embed wide-embed"><iframe src="https://www.youtube-nocookie.com/embed/0aZLb38ILUs" title="eTeacher talk" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                    <div class="photo-grid" data-gallery="talkshow" data-count="3" data-ext="jpg"></div>
+                                </div></div>
+                            </div>
+
+                            <!-- TVC -->
+                            <div class="pf-group">
+                                <button class="pf-toggle" aria-expanded="false">
+                                    <img class="pf-cover" src="assets/lighting/tvc-vongtayme/01.jpg" alt="" loading="lazy">
+                                    <span class="pf-veil"></span>
+                                    <span class="pf-label">
+                                        <span class="pf-group-title">TVC</span>
+                                        <span class="pf-count">3 dự án</span>
+                                    </span>
+                                    <span class="pf-arrow" aria-hidden="true">
+                                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                </button>
+                                <div class="pf-body"><div class="pf-body-inner">
+                                    <h5 class="sub-title">Inspiration</h5>
+                                    <div class="video-embed wide-embed"><iframe src="https://www.youtube-nocookie.com/embed/Ac_qploh3NA" title="Inspiration" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                    <div class="photo-grid" data-gallery="tvc-inspiration" data-count="2" data-ext="jpg"></div>
+
+                                    <h5 class="sub-title">Lần đầu tiên</h5>
+                                    <div class="video-embed wide-embed"><iframe src="https://www.youtube-nocookie.com/embed/7bbeYT94QsM" title="Short Film - Lần đầu tiên" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                    <div class="photo-grid" data-gallery="tvc-landautien" data-count="2" data-ext="jpg"></div>
+
+                                    <h5 class="sub-title">Vòng tay mẹ - TVC Unilever</h5>
+                                    <div class="video-embed wide-embed"><iframe src="https://www.youtube-nocookie.com/embed/ZDKHU6MdyAs" title="TVC Unilever - Vòng tay mẹ" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                                    <div class="photo-grid" data-gallery="tvc-vongtayme" data-count="1" data-ext="jpg"></div>
+                                </div></div>
+                            </div>
+
+                        </div>
+                        </div></div>
+                    </div>
+
+                </div>
+                </div></div>
+            </div>
+
+            <div class="pf-group" data-folder="video-creator">
+                <button class="pf-toggle" aria-expanded="false">
+                    <img class="pf-cover" src="assets/video-creator/colorgrading/after.jpg" alt="" loading="lazy">
+                    <span class="pf-veil"></span>
+                    <span class="pf-label">
+                        <span class="pf-group-title">Video Creator</span>
+                        <span class="pf-count">7 danh mục · 22 video</span>
+                    </span>
+                    <span class="pf-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </button>
+                <div class="pf-body"><div class="pf-body-inner">
+                <div class="pf-groups pf-nested">
+
+                    <!-- Skincare / YouTube Long Content -->
+                    <div class="pf-group">
+                        <button class="pf-toggle" aria-expanded="false">
+                            <img class="pf-cover" src="assets/video-creator/thumbs/skincare.png" alt="" loading="lazy">
+                            <span class="pf-veil"></span>
+                            <span class="pf-label">
+                                <span class="pf-group-title">Skincare Evidence</span>
+                                <span class="pf-count">YouTube Long Content · 5 video</span>
+                            </span>
+                            <span class="pf-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </button>
+                        <div class="pf-body"><div class="pf-body-inner">
+                            <div class="wide-grid">
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/GH2logEmPGg" title="Skincare 1" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/LWvCKhTaC0I" title="Skincare 2" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/NCF81mmJIMQ" title="Skincare 3" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/x_Z7qHyeA-8" title="Skincare 4" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/tlWJeel2-F0" title="Skincare 5" loading="lazy" allowfullscreen></iframe></div>
+                            </div>
+                        </div></div>
+                    </div>
+
+                    <!-- Motion Graphics -->
+                    <div class="pf-group">
+                        <button class="pf-toggle" aria-expanded="false">
+                            <img class="pf-cover" src="assets/video-creator/motion/credits-card.png" alt="" loading="lazy">
+                            <span class="pf-veil"></span>
+                            <span class="pf-label">
+                                <span class="pf-group-title">Motion Graphics</span>
+                                <span class="pf-count">4 nhóm · 8 video</span>
+                            </span>
+                            <span class="pf-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </button>
+                        <div class="pf-body"><div class="pf-body-inner">
+                            <h5 class="sub-title">Tổng hợp</h5>
+                            <div class="wide-grid">
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/5vy7-wuRHTU" title="Custom Motion" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/-tk-3RGu6t4" title="Motion 2" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/HCnNnwi_swg" title="Motion 3" loading="lazy" allowfullscreen></iframe></div>
+                            </div>
+
+                            <h5 class="sub-title">Credits Card</h5>
+                            <div class="video-embed wide-embed"><iframe src="https://www.youtube-nocookie.com/embed/c5_JA4D_xY8" title="Credits Card" loading="lazy" allowfullscreen></iframe></div>
+                            <div class="photo-grid">
+                                <a class="photo" href="assets/video-creator/motion/credits-card.png" target="_blank"><img src="assets/video-creator/motion/credits-card.png" alt="Credits Card screenshot" loading="lazy"></a>
+                            </div>
+
+                            <h5 class="sub-title">Product's Intro</h5>
+                            <div class="wide-grid">
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/ZY64FmHbIzQ" title="Intro 1" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/wv_a1DsABi4" title="Intro 2" loading="lazy" allowfullscreen></iframe></div>
+                            </div>
+                            <div class="photo-grid">
+                                <a class="photo" href="assets/video-creator/motion/intro-1-ref.jpg" target="_blank"><img src="assets/video-creator/motion/intro-1-ref.jpg" alt="Intro 1 reference" loading="lazy"></a>
+                                <a class="photo" href="assets/video-creator/motion/intro-2-ref.webp" target="_blank"><img src="assets/video-creator/motion/intro-2-ref.webp" alt="Intro 2 reference" loading="lazy"></a>
+                            </div>
+
+                            <h5 class="sub-title">The Resistance War Against America</h5>
+                            <div class="video-embed wide-embed"><iframe src="https://www.youtube-nocookie.com/embed/LT299ie-lMQ" title="The Resistance War Against America" loading="lazy" allowfullscreen></iframe></div>
+                            <div class="photo-grid">
+                                <a class="photo" href="assets/video-creator/motion/resistance-war.jpg" target="_blank"><img src="assets/video-creator/motion/resistance-war.jpg" alt="Resistance War still" loading="lazy"></a>
+                            </div>
+                        </div></div>
+                    </div>
+
+                    <!-- Color Grading -->
+                    <div class="pf-group">
+                        <button class="pf-toggle" aria-expanded="false">
+                            <img class="pf-cover" src="assets/video-creator/colorgrading/after.jpg" alt="" loading="lazy">
+                            <span class="pf-veil"></span>
+                            <span class="pf-label">
+                                <span class="pf-group-title">Color Grading</span>
+                                <span class="pf-count">Photo &amp; Video</span>
+                            </span>
+                            <span class="pf-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </button>
+                        <div class="pf-body"><div class="pf-body-inner">
+                            <h5 class="sub-title">Video Grading</h5>
+                            <div class="project-media media-pair">
+                                <figure class="media-item">
+                                    <img src="assets/video-creator/colorgrading/before.jpg" alt="Before grading" loading="lazy">
+                                    <figcaption><span class="tag tag-before">Before</span> Footage gốc</figcaption>
+                                </figure>
+                                <figure class="media-item">
+                                    <img src="assets/video-creator/colorgrading/after.jpg" alt="After grading" loading="lazy">
+                                    <figcaption><span class="tag tag-after">After</span> Đã grading</figcaption>
+                                </figure>
+                            </div>
+                            <div class="photo-grid">
+                                <a class="photo" href="assets/video-creator/colorgrading/nodes.jpg" target="_blank"><img src="assets/video-creator/colorgrading/nodes.jpg" alt="DaVinci nodes" loading="lazy"></a>
+                            </div>
+
+                            <h5 class="sub-title">Photo Grading</h5>
+                            <div class="video-embed wide-embed"><iframe src="https://www.youtube-nocookie.com/embed/GS2wdvfszJ8" title="Photo Grading" loading="lazy" allowfullscreen></iframe></div>
+                        </div></div>
+                    </div>
+
+                    <!-- Recap Event -->
+                    <div class="pf-group">
+                        <button class="pf-toggle" aria-expanded="false">
+                            <img class="pf-cover" src="assets/video-creator/thumbs/recap.png" alt="" loading="lazy">
+                            <span class="pf-veil"></span>
+                            <span class="pf-label">
+                                <span class="pf-group-title">Recap Event</span>
+                                <span class="pf-count">2 video</span>
+                            </span>
+                            <span class="pf-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </button>
+                        <div class="pf-body"><div class="pf-body-inner">
+                            <div class="wide-grid">
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/j2U4I0ngUMc" title="TVGS 2024" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/UrZHfdzELhg" title="Year End Party" loading="lazy" allowfullscreen></iframe></div>
+                            </div>
+                        </div></div>
+                    </div>
+
+                    <!-- Wedding -->
+                    <div class="pf-group">
+                        <button class="pf-toggle" aria-expanded="false">
+                            <img class="pf-cover" src="assets/video-creator/thumbs/wedding.png" alt="" loading="lazy">
+                            <span class="pf-veil"></span>
+                            <span class="pf-label">
+                                <span class="pf-group-title">Wedding</span>
+                                <span class="pf-count">2 video</span>
+                            </span>
+                            <span class="pf-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </button>
+                        <div class="pf-body"><div class="pf-body-inner">
+                            <div class="wide-grid">
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/-MLB999cT9Q" title="Pre-Wedding" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/qj-QkzVFf-4" title="Wedding" loading="lazy" allowfullscreen></iframe></div>
+                            </div>
+                        </div></div>
+                    </div>
+
+                    <!-- LiBé -->
+                    <div class="pf-group">
+                        <button class="pf-toggle" aria-expanded="false">
+                            <img class="pf-cover" src="assets/video-creator/thumbs/libe.png" alt="" loading="lazy">
+                            <span class="pf-veil"></span>
+                            <span class="pf-label">
+                                <span class="pf-group-title">LiBé - Fashion Brand</span>
+                                <span class="pf-count">2 shorts</span>
+                            </span>
+                            <span class="pf-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </button>
+                        <div class="pf-body"><div class="pf-body-inner">
+                            <div class="shorts-grid">
+                                <div class="short-embed"><iframe src="https://www.youtube-nocookie.com/embed/Orn-oNEBFkw" title="LiBé 1" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="short-embed"><iframe src="https://www.youtube-nocookie.com/embed/UsNaPgoqaWw" title="LiBé 2" loading="lazy" allowfullscreen></iframe></div>
+                            </div>
+                        </div></div>
+                    </div>
+
+                    <!-- Anais An -->
+                    <div class="pf-group">
+                        <button class="pf-toggle" aria-expanded="false">
+                            <img class="pf-cover" src="assets/video-creator/thumbs/anais.png" alt="" loading="lazy">
+                            <span class="pf-veil"></span>
+                            <span class="pf-label">
+                                <span class="pf-group-title">Anais An - Quần áo trẻ em</span>
+                                <span class="pf-count">2 shorts</span>
+                            </span>
+                            <span class="pf-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </button>
+                        <div class="pf-body"><div class="pf-body-inner">
+                            <div class="shorts-grid">
+                                <div class="short-embed"><iframe src="https://www.youtube-nocookie.com/embed/zTyrKMaLdYQ" title="Anais An 1" loading="lazy" allowfullscreen></iframe></div>
+                                <div class="short-embed"><iframe src="https://www.youtube-nocookie.com/embed/093DvQ4acRk" title="Anais An 2" loading="lazy" allowfullscreen></iframe></div>
+                            </div>
+                        </div></div>
+                    </div>
+
+                </div>
+                </div></div>
+            </div>
+
+            <div class="pf-group" data-folder="visual-design">
+                <button class="pf-toggle" aria-expanded="false">
+                    <img class="pf-cover" src="assets/visual-design/poster/01.jpg" alt="" loading="lazy">
+                    <span class="pf-veil"></span>
+                    <span class="pf-label">
+                        <span class="pf-group-title">Visual Design</span>
+                        <span class="pf-count">6 thiết kế</span>
+                    </span>
+                    <span class="pf-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </button>
+                <div class="pf-body"><div class="pf-body-inner">
+                    <h5 class="sub-title">Poster</h5>
+                    <div class="photo-grid">
+                        <a class="photo" href="assets/visual-design/poster/01.jpg" target="_blank"><img src="assets/visual-design/poster/01.jpg" alt="Lanbena Concept" loading="lazy"></a>
+                        <a class="photo" href="assets/visual-design/poster/02.jpg" target="_blank"><img src="assets/visual-design/poster/02.jpg" alt="Poster 2" loading="lazy"></a>
+                        <a class="photo" href="assets/visual-design/poster/03.jpg" target="_blank"><img src="assets/visual-design/poster/03.jpg" alt="Poster 3" loading="lazy"></a>
+                    </div>
+
+                    <h5 class="sub-title">Catalogue</h5>
+                    <div class="photo-grid">
+                        <a class="photo" href="assets/visual-design/catalogue/01.jpg" target="_blank"><img src="assets/visual-design/catalogue/01.jpg" alt="Catalogue" loading="lazy"></a>
+                    </div>
+
+                    <h5 class="sub-title">Vespa Sprint</h5>
+                    <div class="photo-grid">
+                        <a class="photo" href="assets/visual-design/vespa-sprint/01.jpg" target="_blank"><img src="assets/visual-design/vespa-sprint/01.jpg" alt="Vespa Sprint 1" loading="lazy"></a>
+                        <a class="photo" href="assets/visual-design/vespa-sprint/02.jpg" target="_blank"><img src="assets/visual-design/vespa-sprint/02.jpg" alt="Vespa Sprint 2" loading="lazy"></a>
+                    </div>
+                </div></div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="services">
+        <div class="exp-orbit" id="expOrbit" aria-hidden="true"></div>
+        <div class="container">
+            <h2 class="section-title">Kinh Nghiệm</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Kỹ Năng</h3>
+                    <p>Quản lý team (2 Content, 2 Designer, 2 Video Editor) · Video Creativity · Thiết kế · Set up ánh sáng &amp; bối cảnh · Model AI Generate</p>
+                </div>
+                <div class="service-card">
+                    <h3>Công Cụ</h3>
+                    <p>Premiere · After Effects · DaVinci Resolve · CapCut · Audition · Media Encoder · Photoshop · Illustrator · ComfyUI · OpenArt AI</p>
+                </div>
+                <div class="service-card">
+                    <h3>Kinh Nghiệm Làm Việc</h3>
+                    <p>Quay phim (Gimbal), nhiếp ảnh (Flash), biên tập video, Motion Graphics · Giám sát hiện trường sự kiện lớn (Shopee, TikTok, SECC) · Điều phối team, hoàn thành 30+ video/tháng</p>
+                </div>
+            </div>
+            <div class="exp-bottom">
+            <figure class="exp-still">
+                <img src="assets/brand/experience.jpg" alt="Cao Duy Hoàng" loading="lazy">
+            </figure>
+            <div class="education-group">
+                <h3 class="education-title">Học Vấn</h3>
+                <div class="education-row">
+                    <div class="education-item">
+                        <h4>Đại Học Quy Nhơn</h4>
+                        <p>2021 - 2022</p>
+                    </div>
+                    <div class="education-item">
+                        <h4>Đại Học Mở</h4>
+                        <p>2022 - Hiện tại</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="funnel">
+        <video class="funnel-video" id="funnelVideo" muted playsinline preload="auto"
+               src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4"></video>
+        <div class="funnel-scrim"></div>
+
+        <div class="funnel-inner">
+            <p class="funnel-label" aria-hidden="true">
+                Xin chào, đây là bước cuối cùng<br>
+                Nói cho tôi biết bạn đang xây dựng điều gì
+            </p>
+
+            <p class="funnel-type" id="funnelType" data-text="Rất vui vì bạn đã ghé qua. Giờ thì, chúng ta làm gì tiếp theo?"></p>
+
+            <div class="funnel-actions" id="funnelActions">
+                <a class="pill" href="mailto:hoangcd.contact@gmail.com?subject=Đặt%20lịch%20quay%20chụp&amp;body=Chào%20Hoàng,%20mình%20muốn%20đặt%20lịch%20quay/chụp.%0A%0AThời%20gian%20dự%20kiến:%0AĐịa%20điểm:%0ANgân%20sách:%0A">Đặt lịch quay chụp</a>
+                <a class="pill" href="mailto:hoangcd.contact@gmail.com?subject=Gửi%20brief%20dự%20án&amp;body=Chào%20Hoàng,%20đây%20là%20brief%20dự%20án%20của%20mình:%0A%0A">Gửi brief dự án</a>
+                <a class="pill" href="mailto:hoangcd.contact@gmail.com?subject=Hợp%20tác%20dài%20hạn">Hợp tác dài hạn</a>
+                <a class="pill" href="#portfolio">Xem lại tác phẩm</a>
+
+                <button type="button" class="pill pill--outline" id="copyMail">
+                    <span>Email: <u>hoangcd.contact@gmail.com</u></span>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                        <rect x="3.5" y="3.5" width="7" height="7" rx="1.2" stroke="currentColor"/>
+                        <path d="M8.5 3.5V2.7A1.2 1.2 0 0 0 7.3 1.5H2.7A1.2 1.2 0 0 0 1.5 2.7v4.6A1.2 1.2 0 0 0 2.7 8.5h.8" stroke="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form class="funnel-form" id="leadForm" novalidate>
+                <label class="funnel-form-label" for="leadEmail">Hoặc để lại email, tôi sẽ liên hệ lại</label>
+                <div class="funnel-form-row">
+                    <input type="email" id="leadEmail" name="email" required
+                           placeholder="email-cua-ban@gmail.com" autocomplete="email">
+                    <button type="submit">Gửi</button>
+                </div>
+                <p class="funnel-form-msg" id="leadMsg" role="status" aria-live="polite"></p>
+            </form>
+
+            <p class="funnel-meta">TP. Hồ Chí Minh &nbsp;·&nbsp; 0332 038 903</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Cao Duy Hoàng. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

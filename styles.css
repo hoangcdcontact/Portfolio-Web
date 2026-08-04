@@ -1,0 +1,2297 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Cinematic neutral black with champagne/bronze accents. Saturated
+       orange read as cheap, so the warmth lives in tint, not chroma. */
+    --bg-primary: #0a0a0a;
+    --bg-deep: #060606;
+    --bg-raised: #101010;
+    --card-bg: #141312;
+    --card-bg-alt: #1a1917;
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-border-lit: rgba(255, 255, 255, 0.2);
+    /* Off-white rather than pure #fff: pure values flatten the depth. */
+    --text-primary: #f6f3ef;
+    --text-secondary: #b6ada3;
+    --text-muted: #8f8880;
+    --text-muted-2: #c2ac93;
+    --accent-color: #c9ae90;
+    --accent-color-2: #8d7458;
+    --accent-soft: rgba(201, 174, 144, 0.14);
+    --frame: linear-gradient(158deg, #1e1c1a 0%, #141312 55%, #0f0e0d 100%);
+    --glow: radial-gradient(circle, rgba(201, 174, 144, 0.16) 0%, rgba(141, 116, 88, 0.08) 45%, rgba(0, 0, 0, 0) 70%);
+    /* Faint dot matrix, as in the reference frames. */
+    --dots: radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    /* One family for the whole page. Hierarchy is carried by weight
+       (200-700), never by swapping typeface. */
+    --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    /* Reserved for the hero's "Creative Portfolio" and nothing else. */
+    --font-accent: 'Playfair Display', Georgia, serif;
+    /* Metadata keeps its own token so tracking stays tunable, but it is
+       the same Poppins as everything else, just lighter. */
+    --font-meta: var(--font-sans);
+
+    /* Type scale: one ramp for the whole page, fluid between the two ends. */
+    --step-hero: clamp(2.6rem, 7vw, 5.25rem);
+    --step-display: clamp(1.9rem, 3.6vw, 3rem);
+    --step-lead: clamp(1.05rem, 1.5vw, 1.3rem);
+    --step-body: 1rem;
+    --step-small: 0.875rem;
+    --step-micro: 0.78rem;
+
+    /* Vertical rhythm. One knob per band so sections stay in step. */
+    --space-section: clamp(5.5rem, 11vh, 9rem);
+    --space-block: clamp(2.5rem, 5vw, 4rem);
+    --gutter: clamp(20px, 4vw, 40px);
+
+    /* One radius system: containers 18, media 14, chips 10, controls pill. */
+    --r-lg: 18px;
+    --r-md: 14px;
+    --r-sm: 10px;
+    --r-pill: 999px;
+
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --t-fast: 180ms;
+    --t-med: 320ms;
+    --t-slow: 620ms;
+
+    /* Shadows are tinted to the page black and stay ultra-diffuse. */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-lift: 0 22px 48px -26px rgba(0, 0, 0, 0.95), 0 2px 10px rgba(0, 0, 0, 0.35);
+    --transition: all 0.3s ease;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* The fixed navbar must not sit on top of the anchor it just jumped to. */
+    scroll-padding-top: 88px;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--text-secondary);
+    /* Dot matrix over flat black, as in the reference. */
+    background-color: var(--bg-primary);
+    background-image: var(--dots);
+    background-size: 22px 22px;
+    font-size: var(--step-body);
+    line-height: 1.65;
+    letter-spacing: -0.006em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+img,
+video {
+    max-width: 100%;
+}
+
+/* Form controls do not inherit type by default, which left the folder
+   buttons and their labels rendering in the UA's Arial. */
+button,
+input,
+select,
+textarea {
+    font: inherit;
+    color: inherit;
+}
+
+::selection {
+    background: rgba(201, 174, 144, 0.28);
+    color: var(--text-primary);
+}
+
+/* One focus treatment for every interactive element on the page. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+.container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    background: rgba(10, 10, 10, 0.72);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 0.9rem 0;
+    /* The showreel's 3D carousel is composited onto its own GPU layer and
+       was drawing through the bar. Promoting the bar too puts both on the
+       compositor, where the z-index above is honoured again. */
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* Solid fallback where translucency is unwanted or unsupported. */
+@media (prefers-reduced-transparency: reduce) {
+    .navbar {
+        background: #0c0c0c;
+        backdrop-filter: none;
+    }
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* The source PNG is 720×720 with the mark occupying only a 262×134 box in
+   the middle, so we window in on that region instead of shrinking the lot. */
+.logo {
+    --logo-h: 40px;
+    --logo-scale: calc(var(--logo-h) / 134);
+    display: block;
+    position: relative;
+    flex-shrink: 0;
+    width: calc(262 * var(--logo-scale));
+    height: var(--logo-h);
+    overflow: hidden;
+    text-decoration: none;
+    transition: opacity 0.25s ease;
+}
+
+.logo:hover {
+    opacity: 0.75;
+}
+
+.logo img {
+    position: absolute;
+    max-width: none;
+    width: calc(720 * var(--logo-scale));
+    height: auto;
+    left: calc(-228 * var(--logo-scale));
+    top: calc(-293 * var(--logo-scale));
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2.25rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: var(--step-small);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    position: relative;
+    padding-block: 2px;
+    transition: color var(--t-fast) var(--ease-in-out);
+}
+
+.nav-links a:hover {
+    color: var(--text-primary);
+}
+
+/* A single champagne hairline. The old 2px gradient bar read as decoration. */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--accent-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--t-med) var(--ease-out);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    transform: scaleX(1);
+}
+
+/* The scroll-spy state in script.js had no styling at all until now. */
+.nav-links a.active {
+    color: var(--text-primary);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 22px;
+    height: 1.5px;
+    background: var(--text-primary);
+    border-radius: 1px;
+    transition: transform var(--t-med) var(--ease-out), opacity var(--t-fast) linear;
+}
+
+/* Hero Section */
+.hero {
+    /* dvh, not vh: the iOS address bar makes vh jump on first scroll. */
+    min-height: 100dvh;
+    position: relative;
+    overflow: hidden;
+    margin-top: 60px;
+    background: var(--bg-primary);
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top;
+    z-index: 0;
+    /* Lift the exposure and warm it toward the palette below. */
+    filter: brightness(1.22) contrast(1.04) saturate(1.06);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Light hand up top so the footage reads, then a full fade into the
+       page colour so the hero dissolves into the section below. */
+    background: linear-gradient(180deg,
+        rgba(10, 10, 10, 0.32) 0%,
+        rgba(10, 10, 10, 0.42) 45%,
+        rgba(10, 10, 10, 0.82) 78%,
+        var(--bg-primary) 100%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: absolute;
+    left: 50%;
+    bottom: 18%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1240px;
+    padding: 0 var(--gutter);
+    text-align: center;
+    z-index: 2;
+}
+
+/* Title and subtitle enter separately so the eye lands on the name first. */
+.hero-title,
+.hero-subtitle,
+.scroll-cue {
+    animation: slideInUp 0.9s var(--ease-out) both;
+}
+
+.hero-subtitle {
+    animation-delay: 0.12s;
+}
+
+.scroll-cue {
+    animation-delay: 0.24s;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-title {
+    font-size: var(--step-hero);
+    font-weight: 600;
+    /* Italic Playfair carries a descender in "Portfolio"; 1.06 plus the
+       padding below keeps it from being clipped by the line box. */
+    line-height: 1.06;
+    padding-bottom: 0.08em;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.035em;
+    color: var(--text-primary);
+    text-wrap: balance;
+}
+
+.italic-accent {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: var(--step-small);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    margin-bottom: 2.25rem;
+}
+
+/* Scroll cue — chevrons echoing downward */
+.scroll-cue {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.chev {
+    display: block;
+    width: 18px;
+    height: 18px;
+    border-right: 2px solid var(--text-primary);
+    border-bottom: 2px solid var(--text-primary);
+    transform: rotate(45deg);
+    opacity: 0;
+    animation: chev-echo 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+/* Each chevron trails the one above it, so the pulse reads as a ripple. */
+.chev:nth-child(1) { animation-delay: 0s; }
+.chev:nth-child(2) { animation-delay: 0.18s; }
+.chev:nth-child(3) { animation-delay: 0.36s; }
+
+@keyframes chev-echo {
+    0%   { opacity: 0;    transform: rotate(45deg) translate(-4px, -4px); }
+    45%  { opacity: 0.95; transform: rotate(45deg) translate(0, 0); }
+    100% { opacity: 0;    transform: rotate(45deg) translate(4px, 4px); }
+}
+
+.scroll-cue:hover .chev {
+    animation-duration: 1.1s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .chev {
+        animation: none;
+        opacity: 0.6;
+    }
+}
+
+/* Section Title. Hierarchy comes from scale and tracking, not from a
+   decorative bar underneath, so the old gradient rule is gone. */
+.section-title {
+    font-size: var(--step-display);
+    text-align: center;
+    margin-bottom: var(--space-block);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    position: relative;
+    display: block;
+    width: 100%;
+    color: var(--text-primary);
+    text-wrap: balance;
+}
+
+/* Showreel — 3D cylinder carousel */
+.showreel {
+    background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-deep) 55%, var(--bg-primary) 100%);
+    padding: var(--space-section) 0 0;
+    overflow: hidden;
+    /* The 3D carousel inside gets composited onto its own layer, and that
+       layer was painting straight through the fixed navbar's mobile
+       drawer. Isolating the section keeps its whole subtree underneath. */
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+}
+
+/* Section backdrop, in two layers. The photograph sits dim and mostly
+   desaturated so it reads as depth rather than as a picture competing
+   with the carousel. */
+.showreel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: url('assets/showreel/showreel-cover.jpg') 58% 38% / cover no-repeat;
+    filter: grayscale(68%) brightness(0.82) contrast(0.98);
+    opacity: 0.55;
+    /* Mirrored, so the subject faces into the section instead of out of it. */
+    transform: scaleX(-1);
+    pointer-events: none;
+}
+
+/* Scrim over the photograph: fades to the page colour top and bottom so
+   the section still dissolves into its neighbours, and weights the left
+   side where the folder list and the headline sit. */
+.showreel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(180deg,
+            var(--bg-primary) 0%,
+            rgba(10, 10, 10, 0.5) 14%,
+            rgba(6, 6, 6, 0.42) 62%,
+            var(--bg-primary) 100%),
+        linear-gradient(90deg,
+            rgba(6, 6, 6, 0.88) 0%,
+            rgba(6, 6, 6, 0.6) 38%,
+            rgba(6, 6, 6, 0.12) 100%);
+    pointer-events: none;
+}
+
+.showreel-hint {
+    text-align: center;
+    /* Sits directly under the title, inside the title's own bottom margin. */
+    margin-top: calc(var(--space-block) * -0.62);
+    margin-bottom: 1.5rem;
+    font-size: var(--step-small);
+    letter-spacing: 0.02em;
+    color: var(--text-muted);
+}
+
+.reel-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+}
+
+.reel-stage {
+    position: relative;
+    height: 78vh;
+    min-height: 460px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1350px;
+    user-select: none;
+    overflow: hidden;
+}
+
+/* Hover-reveal folder list */
+.reel-list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.reel-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.reel-row {
+    overflow: hidden;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: left;
+    font: inherit;
+}
+
+.reel-row-slide {
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reel-row:hover .reel-row-slide,
+.reel-row:focus-visible .reel-row-slide {
+    transform: translateY(-100%);
+}
+
+.reel-row span {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(30px, 5.2vw, 58px);
+    line-height: 0.95em;
+    letter-spacing: -0.045em;
+    white-space: pre;
+    transition: color var(--t-med) var(--ease-in-out);
+}
+
+.reel-row span + span {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+}
+
+/* Only the folder currently centred in the carousel stays lit. The idle
+   tone was #5c554e, which sat under 3:1 against the black behind it. */
+.reel-row span {
+    color: #857c73;
+}
+
+.reel-row:hover span,
+.reel-row:focus-visible span {
+    color: #b6ada3;
+}
+
+.reel-row.is-on span {
+    color: var(--text-primary);
+}
+
+@media (min-width: 900px) {
+    .reel-layout {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 3rem;
+    }
+}
+
+
+.reel-space {
+    position: absolute;
+    transform-style: preserve-3d;
+}
+
+.reel-card {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    backface-visibility: visible;
+    cursor: pointer;
+}
+
+.reel-card:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 6px;
+    border-radius: var(--r-lg);
+}
+
+/* One slice of the card's physical thickness */
+.reel-slice {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.reel-slice--mid {
+    background: #4a453f;
+    border: 1px solid #4a453f;
+}
+
+.reel-slice--front,
+.reel-slice--back {
+    background: var(--frame);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backface-visibility: hidden;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.reel-slice img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--r-md);
+}
+
+.reel-slice--back .reel-blur {
+    position: absolute;
+    inset: 0;
+    filter: blur(16px);
+    transform: scale(1.15);
+}
+
+.reel-face {
+    position: absolute;
+    inset: 0;
+    padding: 1.15rem 1.25rem;
+    background: rgba(0, 0, 0, 0.18);
+    z-index: 10;
+}
+
+.reel-title {
+    position: absolute;
+    left: 1.25rem;
+    bottom: 1.15rem;
+    max-width: 82%;
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+    /* Long project names must never reach the corner mark. */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Back face furniture */
+.reel-stripe {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1.15rem;
+    height: 34px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+}
+
+.reel-meta {
+    position: absolute;
+    left: 1.35rem;
+    bottom: 1.15rem;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-family: var(--font-meta);
+    text-align: left;
+}
+
+.reel-meta-name {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--text-primary);
+}
+
+.reel-meta-sub {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.reel-meta-sub .dim {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 300;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reel-stage {
+        height: auto;
+        min-height: 0;
+        perspective: none;
+        display: block;
+    }
+}
+
+/* Portfolio Section */
+.portfolio {
+    padding: var(--space-section) 0;
+    background: var(--bg-primary);
+    position: relative;
+}
+
+/* Portfolio folders shown as image tiles */
+.pf-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.75rem;
+    margin-top: var(--space-block);
+}
+
+/* The top level holds exactly four folders. Three auto-fit columns left
+   the fourth stranded alone in its own row, so the top level is an even
+   2x2 and only the nested levels stay auto-fit. */
+@media (min-width: 900px) {
+    .portfolio > .container > .pf-groups {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+.pf-group {
+    grid-column: span 1;
+}
+
+.pf-group.open {
+    grid-column: 1 / -1;
+}
+
+.pf-toggle {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    padding: 0;
+    border: 1px solid var(--card-border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--frame);
+    cursor: pointer;
+    text-align: left;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    transition: border-color var(--t-med) var(--ease-in-out),
+                box-shadow var(--t-med) var(--ease-in-out),
+                translate var(--t-med) var(--ease-out);
+}
+
+.pf-group.open > .pf-toggle {
+    aspect-ratio: auto;
+    height: 130px;
+    /* The open folder reads as the active layer: lit, outlined, lifted. */
+    border-color: rgba(255, 255, 255, 0.42);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), var(--shadow-lift);
+}
+
+.pf-group.open > .pf-toggle .pf-cover {
+    filter: grayscale(0%) brightness(0.82);
+}
+
+.pf-group.open > .pf-toggle .pf-veil {
+    opacity: 0.55;
+}
+
+.pf-group.open > .pf-toggle .pf-group-title {
+    opacity: 1;
+}
+
+/* Everything not opened steps back so the active one stands out. */
+.pf-groups:has(> .pf-group.open) > .pf-group:not(.open) {
+    opacity: 0.45;
+    transition: opacity var(--t-med) var(--ease-in-out);
+}
+
+.pf-groups:has(> .pf-group.open) > .pf-group:not(.open):hover {
+    opacity: 1;
+}
+
+/* The lift uses `translate`, not `transform`: the 3D carousel and the
+   reveal observer both write to `transform` on their own elements, and
+   keeping the two properties separate stops them from cancelling out. */
+.pf-toggle:hover,
+.pf-toggle:focus-visible {
+    border-color: var(--card-border-lit);
+    box-shadow: var(--shadow-lift);
+    translate: 0 -5px;
+}
+
+.pf-toggle:active {
+    translate: 0 -1px;
+}
+
+.pf-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(70%) brightness(0.55);
+    transform: scale(1.01);
+    transition: filter 0.45s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pf-toggle:hover .pf-cover {
+    filter: grayscale(0%) brightness(0.75);
+    transform: scale(1.06);
+}
+
+.pf-veil {
+    position: absolute;
+    inset: 0;
+    /* Weighted to the bottom so the label always has a dark bed to sit on. */
+    background: linear-gradient(180deg,
+        rgba(10, 10, 10, 0.1) 0%,
+        rgba(10, 10, 10, 0.42) 52%,
+        rgba(8, 8, 8, 0.92) 100%);
+    transition: opacity 0.45s var(--ease-in-out);
+}
+
+.pf-toggle:hover .pf-veil {
+    opacity: 0.75;
+}
+
+.pf-label {
+    position: absolute;
+    left: 1.5rem;
+    right: 3.4rem;
+    bottom: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    /* The lift lives on the wrapper so the title can never ride over the count. */
+    transform: translateY(7px);
+    transition: transform 0.4s var(--ease-out);
+}
+
+.pf-toggle:hover .pf-label,
+.pf-group.open > .pf-toggle .pf-label {
+    transform: translateY(0);
+}
+
+.pf-group-title {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 1.6rem;
+    line-height: 1.2;
+    padding-bottom: 0.06em;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+    opacity: 0.88;
+    transition: opacity 0.4s var(--ease-in-out);
+    /* Long folder names stay on two lines instead of pushing the count out. */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.pf-toggle:hover .pf-group-title {
+    opacity: 1;
+}
+
+.pf-count {
+    font-family: var(--font-meta);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-in-out) 0.05s;
+}
+
+.pf-toggle:hover .pf-count,
+.pf-group.open > .pf-toggle .pf-count {
+    opacity: 1;
+}
+
+.pf-arrow {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 1.4rem;
+    width: 2.1rem;
+    height: 2.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: var(--r-pill);
+    color: var(--text-primary);
+    background: rgba(10, 10, 10, 0.4);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: transform 0.35s var(--ease-out),
+                background var(--t-med) var(--ease-in-out),
+                border-color var(--t-med) var(--ease-in-out);
+}
+
+.pf-arrow svg {
+    width: 13px;
+    height: 13px;
+}
+
+.pf-toggle:hover .pf-arrow {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.pf-group.open > .pf-toggle .pf-arrow {
+    transform: rotate(90deg);
+}
+
+/* Nested folder levels sit a bit smaller. Three columns at desktop, and
+   a lone trailing folder stretches the row rather than sitting stranded
+   in a quarter-width cell. */
+.pf-nested {
+    margin-top: 1.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+    .pf-nested > .pf-group:last-child:nth-child(3n + 1) {
+        grid-column: 1 / -1;
+    }
+
+    .pf-nested > .pf-group:last-child:nth-child(3n + 1) > .pf-toggle {
+        aspect-ratio: 16 / 5;
+    }
+}
+
+.pf-nested .pf-toggle {
+    border-radius: var(--r-md);
+}
+
+.pf-nested .pf-group-title {
+    font-size: 1.28rem;
+}
+
+.pf-nested .pf-count {
+    font-size: 0.68rem;
+}
+
+.pf-nested .pf-label {
+    left: 1.1rem;
+    right: 2.9rem;
+    bottom: 1.1rem;
+}
+
+.pf-nested .pf-arrow {
+    right: 0.8rem;
+    bottom: 1rem;
+    width: 1.7rem;
+    height: 1.7rem;
+}
+
+.pf-nested .pf-group.open > .pf-toggle {
+    height: 108px;
+}
+
+/* Photo gallery inside a folder */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 1.1rem;
+    margin-top: 1.75rem;
+}
+
+.photo {
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--r-md);
+    border: 1px solid var(--card-border);
+    background: var(--frame);
+    transition: border-color var(--t-med) var(--ease-in-out),
+                box-shadow var(--t-med) var(--ease-in-out);
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.55s var(--ease-out);
+}
+
+.photo:hover,
+.photo:focus-visible {
+    border-color: var(--card-border-lit);
+    box-shadow: var(--shadow-lift);
+}
+
+.photo:hover img {
+    transform: scale(1.05);
+}
+
+/* Sub-section heading inside a folder. A hairline above it groups the
+   block that follows without boxing it in. */
+.sub-title {
+    margin-top: 2.75rem;
+    margin-bottom: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--card-border);
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.pf-body-inner > .sub-title:first-child {
+    margin-top: 1.75rem;
+    padding-top: 0;
+    border-top: 0;
+}
+
+/* YouTube Shorts (9:16) */
+.shorts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1.1rem;
+}
+
+.short-embed {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: #000;
+    transition: border-color var(--t-med) var(--ease-in-out);
+}
+
+.short-embed:hover {
+    border-color: var(--card-border-lit);
+}
+
+.short-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.wide-embed {
+    margin-top: 1.75rem;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+}
+
+/* Two-up grid of 16:9 embeds */
+.wide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 1.1rem;
+    margin-top: 1.75rem;
+}
+
+.wide-grid .video-embed {
+    border-radius: var(--r-md);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    transition: border-color var(--t-med) var(--ease-in-out);
+}
+
+.wide-grid .video-embed:hover {
+    border-color: var(--card-border-lit);
+}
+
+.pdf-embed {
+    margin-top: 1.75rem;
+    height: 640px;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: var(--frame);
+}
+
+.pdf-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.note {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.pf-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s var(--ease-out);
+}
+
+.pf-group.open > .pf-body {
+    grid-template-rows: 1fr;
+}
+
+.pf-body-inner {
+    overflow: hidden;
+    min-height: 0;
+}
+
+.pf-group.open > .pf-body > .pf-body-inner {
+    padding-bottom: 3rem;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Projects (AI Generate) */
+.project {
+    margin-top: 4rem;
+}
+
+.pf-body-inner > .project:first-child {
+    margin-top: 0.5rem;
+}
+
+.pf-body-inner > .portfolio-grid {
+    margin-top: 0.5rem;
+}
+
+.project-head {
+    margin-bottom: 1.75rem;
+}
+
+.project-index {
+    display: block;
+    font-family: var(--font-meta);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent-color);
+    letter-spacing: 0.14em;
+}
+
+.project-name {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: var(--text-primary);
+    margin: 0.5rem 0 0.65rem;
+    font-weight: 600;
+}
+
+.project-desc {
+    color: var(--text-muted);
+    font-size: var(--step-body);
+    line-height: 1.7;
+    /* Roughly 65 characters: the comfortable reading measure. */
+    max-width: 62ch;
+}
+
+/* Two columns, fixed. auto-fit opened a third column on wide screens and
+   every project here carries an even number of stills, so the last cell
+   was left empty. */
+.project-media {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .project-media,
+    .project-media.media-pair {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.media-item {
+    background: var(--frame);
+    border: 1px solid var(--card-border);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    transition: border-color var(--t-med) var(--ease-in-out),
+                box-shadow var(--t-med) var(--ease-in-out);
+}
+
+.media-item:hover {
+    border-color: var(--card-border-lit);
+    box-shadow: var(--shadow-lift);
+}
+
+.media-item.media-wide {
+    grid-column: 1 / -1;
+}
+
+/* Capped so a tall portrait still cannot tower over the landscape one
+   sitting next to it in the same row. */
+.media-item img,
+.media-item video {
+    width: 100%;
+    display: block;
+    max-height: 520px;
+    object-fit: contain;
+    background: #000;
+}
+
+.video-embed {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+.video-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.media-item figcaption {
+    padding: 0.9rem 1.15rem;
+    font-size: var(--step-small);
+    color: var(--text-muted);
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.tag {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: var(--r-pill);
+    font-family: var(--font-meta);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.tag-before {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-secondary);
+    border: 1px solid var(--card-border);
+}
+
+/* Flat champagne rather than a gradient: one accent, stated once. */
+.tag-after {
+    background: var(--accent-color);
+    color: #14110d;
+    border: 1px solid var(--accent-color);
+}
+
+.portfolio-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-md);
+    aspect-ratio: 1;
+    cursor: pointer;
+    border: 1px solid var(--card-border);
+    background: var(--frame);
+}
+
+.portfolio-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.portfolio-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.portfolio-item:hover .portfolio-image img {
+    transform: scale(1.05);
+}
+
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 10, 10, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.portfolio-item:hover .portfolio-overlay {
+    opacity: 1;
+}
+
+.portfolio-overlay p {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Branding Approach (About) Section. The third font family (DM Sans) is
+   gone; the page runs on one sans now. */
+.branding-approach {
+    background: var(--frame);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    font-family: var(--font-sans);
+}
+
+.ba-wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--space-section) var(--gutter);
+}
+
+.ba-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: var(--space-block);
+}
+
+.ba-header-text {
+    flex: 1;
+}
+
+.ba-line-1,
+.ba-line-2 {
+    font-weight: 300;
+    font-size: clamp(2rem, 3.4vw, 2.75rem);
+    line-height: 1.16;
+    letter-spacing: -0.025em;
+}
+
+.ba-line-1 {
+    color: #857c73;
+}
+
+.ba-line-2 {
+    color: var(--text-primary);
+}
+
+.ba-plus-btn {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: var(--r-sm);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background var(--t-med) var(--ease-in-out),
+                color var(--t-med) var(--ease-in-out),
+                border-color var(--t-med) var(--ease-in-out),
+                scale var(--t-fast) var(--ease-in-out);
+}
+
+.ba-plus-btn:active {
+    scale: 0.94;
+}
+
+.ba-plus-btn svg {
+    width: 12px;
+    height: 12px;
+}
+
+.ba-plus-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--text-primary);
+}
+
+.ba-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 3.5rem;
+}
+
+.ba-left {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 3rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.ba-portrait {
+    position: relative;
+    flex-shrink: 0;
+    width: 250px;
+    height: 310px;
+    border-radius: var(--r-md);
+    overflow: hidden;
+}
+
+.ba-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ba-quote-mark {
+    color: #6b625a;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 3.2rem;
+    line-height: 0.7;
+    margin-bottom: 0.6rem;
+}
+
+.ba-testimonial {
+    min-width: 0;
+    max-width: 480px;
+}
+
+.ba-quote-text {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: var(--step-lead);
+    font-weight: 400;
+    line-height: 1.62;
+    letter-spacing: -0.012em;
+}
+
+.ba-skills {
+    margin-top: 2.25rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--card-border);
+}
+
+.ba-skills-title {
+    font-size: var(--step-micro);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted-2);
+    margin-bottom: 1.1rem;
+}
+
+.ba-skills ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.ba-skills li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+.ba-skills strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.ba-attribution {
+    margin-top: 2.25rem;
+}
+
+.ba-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+}
+
+.ba-role-title {
+    margin-top: 0.3rem;
+    font-size: var(--step-small);
+    letter-spacing: 0.02em;
+    color: #857c73;
+}
+
+.ba-right {
+    display: flex;
+    width: 100%;
+    max-width: 360px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    margin: 0 auto;
+}
+
+/* Labels sit at 92% of the circle, so the circle needs side room on
+   narrow screens or the widest one ("Trung kì") runs off the edge. */
+@media (max-width: 620px) {
+    .ba-right {
+        padding: 0 2.75rem;
+    }
+
+    .ba-label {
+        font-size: 1.05rem;
+    }
+}
+
+.ba-circle-wrap {
+    width: 100%;
+}
+
+.ba-circle-inner {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+}
+
+.ba-circle-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ba-svg-line {
+    stroke: #fff;
+    stroke-width: 0.18;
+    opacity: 0.45;
+    /* Spokes are 36 units long; draw them out from the hub one after another. */
+    stroke-dasharray: 36;
+    stroke-dashoffset: 36;
+    transition: stroke-width 0.3s ease, opacity 0.3s ease;
+}
+
+.ba-circle-inner.is-visible .ba-svg-line {
+    animation: spoke-draw 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Each spoke lands just ahead of its own label. */
+.ba-circle-inner.is-visible .ba-svg-line[data-key="tienky"]  { animation-delay: 0.45s; }
+.ba-circle-inner.is-visible .ba-svg-line[data-key="trungky"] { animation-delay: 0.6s; }
+.ba-circle-inner.is-visible .ba-svg-line[data-key="hauky"]   { animation-delay: 0.75s; }
+
+@keyframes spoke-draw {
+    to { stroke-dashoffset: 0; }
+}
+
+.ba-svg-line.active {
+    stroke-width: 0.6;
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ba-svg-line {
+        stroke-dashoffset: 0;
+    }
+    .ba-circle-inner.is-visible .ba-svg-line {
+        animation: none;
+    }
+}
+
+.ba-label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-size: clamp(1.25rem, 2.8vw, 2.3rem);
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    white-space: nowrap;
+    font-weight: 300;
+    cursor: default;
+    transition: font-weight 0.25s ease, color 0.25s ease;
+}
+
+.ba-label:hover {
+    color: var(--accent-color);
+}
+
+.ba-label.active {
+    font-weight: 700;
+}
+
+/* Reveal-on-scroll utilities */
+.reveal,
+.reveal-fade-only {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity var(--t-slow) var(--ease-out),
+                transform var(--t-slow) var(--ease-out);
+}
+
+.reveal-fade-only {
+    transform: none;
+}
+
+.reveal.is-visible,
+.reveal-fade-only.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-scale.is-visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Services / Experience Section */
+.services {
+    padding: var(--space-section) 0;
+    background: var(--bg-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Portrait paired with the education block */
+.exp-bottom {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-block);
+    margin-top: var(--space-block);
+    position: relative;
+    z-index: 1;
+}
+
+/* Desktop composition: the still holds the left column while the three
+   experience blocks run down the right. `display: contents` on the
+   wrapper lets the still and the education card join the section's own
+   grid without touching the markup. */
+@media (min-width: 900px) {
+    .services > .container {
+        display: grid;
+        grid-template-columns: minmax(300px, 400px) 1fr;
+        column-gap: 2.5rem;
+        row-gap: var(--space-block);
+        align-items: start;
+    }
+
+    .services > .container > .section-title {
+        grid-column: 1 / -1;
+        margin-bottom: 0;
+    }
+
+    .services > .container > .exp-bottom {
+        display: contents;
+    }
+
+    /* Matches the height of the three blocks beside it rather than its own
+       3:4 ratio, so the two columns end on the same line. The crop that
+       costs is a few percent off each side of a centred subject. */
+    .services > .container .exp-still {
+        grid-column: 1;
+        grid-row: 2;
+        width: 100%;
+        margin-inline: 0;
+        aspect-ratio: auto;
+        align-self: stretch;
+    }
+
+    .services > .container > .services-grid {
+        grid-column: 2;
+        grid-row: 2;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin-top: 0;
+    }
+
+    .services > .container .education-group {
+        grid-column: 1 / -1;
+        grid-row: 3;
+    }
+}
+
+/* The source is a 3:4 portrait. Held at its own ratio and centred, so
+   nothing is cropped off the subject. */
+.exp-still {
+    width: min(100%, 440px);
+    margin-inline: auto;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: var(--frame);
+}
+
+.exp-still img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    display: block;
+}
+
+/* The grid gap already separates the two, so the card drops its own. */
+.exp-bottom .education-group {
+    margin-top: 0;
+}
+
+/* Production icons drifting down the margins */
+.exp-orbit {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.exp-icon {
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+    transform: translate(-50%, -50%);
+    color: var(--accent-color-2);
+    opacity: 0.16;
+    animation: exp-drift var(--dur) ease-in-out var(--delay) infinite;
+}
+
+.exp-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes exp-drift {
+    0%, 100% { transform: translate(-50%, -50%) rotate(-4deg); }
+    50%      { transform: translate(-50%, calc(-50% - var(--drift))) rotate(4deg); }
+}
+
+/* Content sits above the drifting layer. */
+.services .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* The margins vanish on narrow screens — the icons would land on the text. */
+@media (max-width: 1100px) {
+    .exp-orbit {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .exp-icon {
+        animation: none;
+    }
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1.5rem;
+    margin-top: var(--space-block);
+}
+
+/* Left-aligned: these cards carry long tool and skill lists, and centred
+   ragged-both-edges text is the hardest possible way to read them. */
+.service-card {
+    padding: 2.25rem 2rem 2.5rem;
+    background: var(--frame);
+    border-radius: var(--r-lg);
+    text-align: left;
+    border: 1px solid var(--card-border);
+    /* script.js writes inline `transform` on these while revealing them, so
+       the hover lift rides on `translate` instead and the two compose. */
+    transition: border-color var(--t-med) var(--ease-in-out),
+                box-shadow var(--t-med) var(--ease-in-out),
+                translate var(--t-med) var(--ease-out);
+}
+
+.service-card:hover {
+    translate: 0 -5px;
+    border-color: var(--card-border-lit);
+    box-shadow: var(--shadow-lift);
+}
+
+.service-card h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--card-border);
+    color: var(--text-primary);
+}
+
+.service-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+}
+
+.education-group {
+    margin-top: var(--space-block);
+    padding: 2.25rem 2rem;
+    background: var(--frame);
+    border: 1px solid var(--card-border);
+    border-radius: var(--r-lg);
+}
+
+.education-title {
+    text-align: center;
+    font-size: var(--step-micro);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted-2);
+    margin-bottom: 1.75rem;
+}
+
+.education-row {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+/* Nested inside an already-bordered card, so these stay flat: a tinted
+   surface and no second border ring. */
+.education-item {
+    flex: 1 1 200px;
+    max-width: 320px;
+    text-align: center;
+    padding: 1.5rem 1.75rem;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid transparent;
+    border-radius: var(--r-md);
+    transition: background var(--t-med) var(--ease-in-out),
+                border-color var(--t-med) var(--ease-in-out);
+}
+
+.education-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--card-border);
+}
+
+.education-item h4 {
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.45rem;
+}
+
+.education-item p {
+    color: var(--text-muted);
+    font-family: var(--font-meta);
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+}
+
+/* Lead funnel — closing section with mouse-scrubbed video */
+.funnel {
+    position: relative;
+    /* Tall enough for the copy to breathe, without eating a whole screen. */
+    min-height: clamp(480px, 62vh, 620px);
+    display: flex;
+    align-items: center;
+    padding: 3rem 1.25rem;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.funnel-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% center;
+    z-index: 0;
+}
+
+/* Keeps the black type readable whatever frame the scrub lands on. */
+.funnel-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    /* Warm cream rather than flat white, so the closing panel stays in tone. */
+    background: linear-gradient(90deg, rgba(255, 244, 233, 0.92) 0%, rgba(255, 238, 222, 0.74) 45%, rgba(255, 226, 200, 0.26) 100%);
+}
+
+.funnel-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 660px;
+    width: 100%;
+}
+
+.funnel-label {
+    pointer-events: none;
+    user-select: none;
+    margin-bottom: 1.25rem;
+    font-size: clamp(18px, 4vw, 27px);
+    line-height: 1.35;
+    letter-spacing: -0.022em;
+    font-weight: 400;
+    color: #14110d;
+    filter: blur(4px);
+}
+
+.funnel-type {
+    color: #14110d;
+    margin-bottom: 1.75rem;
+    font-size: clamp(18px, 4vw, 27px);
+    line-height: 1.35;
+    letter-spacing: -0.022em;
+    font-weight: 500;
+    /* Two lines reserved up front, so the typewriter never pushes the
+       buttons down mid-sentence. */
+    min-height: 2.7em;
+}
+
+.funnel-caret {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background: #14110d;
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.funnel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+}
+
+.funnel-actions.is-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Controls are the one pill-shaped family on the page; containers stay
+   on the 18/14/10 radius scale. */
+.pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.92);
+    color: #14110d;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: var(--r-pill);
+    font-size: 14.5px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    font-family: var(--font-sans);
+    padding: 0.55em 1.15rem;
+    margin: 0;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--t-fast) var(--ease-in-out),
+                color var(--t-fast) var(--ease-in-out),
+                border-color var(--t-fast) var(--ease-in-out),
+                translate var(--t-fast) var(--ease-out);
+}
+
+.pill:hover {
+    background: #14110d;
+    border-color: #14110d;
+    color: #fff;
+    translate: 0 -1px;
+}
+
+.pill:active {
+    translate: 0 0;
+    scale: 0.98;
+}
+
+.pill--outline {
+    gap: 0.6rem;
+    background: transparent;
+    color: #14110d;
+    border-color: rgba(20, 17, 13, 0.55);
+}
+
+.pill--outline u {
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+}
+
+.pill--outline:hover {
+    background: #14110d;
+    border-color: #14110d;
+    color: #fff;
+}
+
+/* Email capture */
+.funnel-form {
+    margin-top: 1.75rem;
+    max-width: 460px;
+}
+
+/* Label above the input, dark enough to clear AA against the cream scrim. */
+.funnel-form-label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: rgba(20, 17, 13, 0.78);
+    margin-bottom: 0.55rem;
+}
+
+.funnel-form-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.funnel-form-row input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.75rem 1.15rem;
+    font-size: 15px;
+    font-family: var(--font-sans);
+    color: #14110d;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(20, 17, 13, 0.28);
+    border-radius: var(--r-pill);
+    transition: border-color var(--t-fast) var(--ease-in-out),
+                background-color var(--t-fast) var(--ease-in-out);
+}
+
+.funnel-form-row input::placeholder {
+    color: rgba(20, 17, 13, 0.5);
+}
+
+.funnel-form-row input:hover {
+    border-color: rgba(20, 17, 13, 0.45);
+}
+
+.funnel-form-row input:focus {
+    background: #fff;
+    outline: 2px solid #14110d;
+    outline-offset: 1px;
+}
+
+.funnel-form-row button {
+    padding: 0.75rem 1.7rem;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-family: var(--font-sans);
+    color: #fff;
+    background: #14110d;
+    border: 1px solid #14110d;
+    border-radius: var(--r-pill);
+    cursor: pointer;
+    transition: background-color var(--t-fast) var(--ease-in-out),
+                color var(--t-fast) var(--ease-in-out),
+                scale var(--t-fast) var(--ease-in-out);
+}
+
+.funnel-form-row button:hover {
+    background: transparent;
+    color: #14110d;
+}
+
+.funnel-form-row button:active {
+    scale: 0.98;
+}
+
+.funnel-form-msg {
+    margin-top: 0.65rem;
+    font-size: 13.5px;
+    min-height: 1.2em;
+    color: rgba(20, 17, 13, 0.75);
+}
+
+.funnel-form-msg.is-error {
+    color: #9b1b26;
+    font-weight: 500;
+}
+
+.funnel-meta {
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(20, 17, 13, 0.16);
+    font-size: 13.5px;
+    letter-spacing: 0.01em;
+    color: rgba(20, 17, 13, 0.72);
+}
+
+@media (min-width: 768px) {
+    .funnel {
+        padding: 3.5rem 2.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .funnel-caret {
+        animation: none;
+    }
+}
+
+/* Footer */
+.footer {
+    background: var(--bg-primary);
+    color: var(--text-muted);
+    text-align: center;
+    padding: 3rem 0;
+    border-top: 1px solid var(--card-border);
+    font-size: var(--step-small);
+    letter-spacing: 0.01em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    /* Hamburger drawer: only ever shown at this width. */
+    .nav-links.is-open {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 1.75rem var(--gutter) 2.25rem;
+        /* Solid, not translucent: the drawer sits over the showreel's
+           composited 3D layer, which bled through a blurred panel. */
+        background: #0c0c0c;
+        border-bottom: 1px solid var(--card-border);
+        box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.9);
+    }
+
+    .nav-links.is-open a {
+        font-size: 1rem;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    /* Title sizes come from the clamp() ramp now; only the layout
+       collapses need declaring here. */
+    .hero-content {
+        bottom: 14%;
+    }
+
+    /* Contained, the wide frame left roughly half the phone viewport as
+       flat black under a thin strip of video. */
+    .hero-video {
+        object-fit: cover;
+        object-position: 50% 28%;
+    }
+
+    .hero-subtitle {
+        letter-spacing: 0.2em;
+        text-indent: 0.2em;
+    }
+
+    .ba-content {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .ba-left {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .ba-portrait {
+        width: 100%;
+        max-width: 320px;
+        height: 380px;
+    }
+
+    .ba-testimonial {
+        max-width: 100%;
+    }
+
+    .ba-right {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .pf-groups {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .pf-nested {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .shorts-grid,
+    .wide-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-card {
+        padding: 1.75rem 1.5rem 2rem;
+    }
+
+    .education-item {
+        max-width: 100%;
+    }
+
+    .funnel-actions .pill {
+        flex: 1 1 auto;
+    }
+
+    .contact-methods {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .contact-btn {
+        width: 100%;
+    }
+}
+
+/* Motion sits at a level that has to answer prefers-reduced-motion.
+   Everything below collapses to the static end state, not to a faster one. */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .hero-title,
+    .hero-subtitle,
+    .scroll-cue {
+        animation: none;
+        opacity: 1;
+    }
+
+    .reveal,
+    .reveal-fade-only,
+    .reveal-scale {
+        opacity: 1;
+        transform: none;
+    }
+
+    .pf-toggle:hover,
+    .service-card:hover,
+    .pill:hover {
+        translate: none;
+    }
+}
