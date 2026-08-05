@@ -87,6 +87,12 @@
     --step-small: 0.875rem;
     --step-micro: 0.78rem;
 
+    /* One heading scale for every section. The ceiling is set by the
+       longest word on the page, "KINH NGHIỆM" at 11 characters: above
+       roughly 10rem it runs past the 1160px content width. Sizing every
+       head from this single value is what keeps them matched. */
+    --ghost-size: clamp(2.2rem, 11vw, 10rem);
+
     /* Vertical rhythm. One knob per band so sections stay in step. */
     --space-section: clamp(5.5rem, 11vh, 9rem);
     --space-block: clamp(2.5rem, 5vw, 4rem);
@@ -529,9 +535,12 @@ input:focus-visible,
     font-size: calc(var(--ghost-size) * 0.4);
     font-weight: 500;
     line-height: 1.4;
-    letter-spacing: 0.42em;
+    /* 0.42em was set when this label was 14px. Carried onto a 64px label
+       it opened 27px gaps between letters, which is what made the longer
+       headings read as stretched. */
+    letter-spacing: 0.16em;
     /* Offsets the trailing letter-space so the label stays optically centred. */
-    text-indent: 0.42em;
+    text-indent: 0.16em;
     text-transform: uppercase;
     /* Sits over the ghost word now, so it carries full contrast rather
        than the muted tone it had when it stood alone above it. */
@@ -625,7 +634,6 @@ input:focus-visible,
 /* Same head as the Portfolio index: label centred inside the ghost word. */
 .showreel > .container {
     --ghost-text: 'SHOWREEL';
-    --ghost-size: clamp(3.5rem, 13vw, 12rem);
     position: relative;
     z-index: 0;
     display: grid;
@@ -1170,9 +1178,6 @@ input:focus-visible,
    than stacked above it. */
 .portfolio > .container {
     --ghost-text: 'PORTFOLIO';
-    /* Declared rather than left to the fallback, so .section-title can
-       derive its own size from it. */
-    --ghost-size: clamp(3.5rem, 13vw, 12rem);
     position: relative;
     z-index: 0;
     display: grid;
@@ -2062,11 +2067,8 @@ input:focus-visible,
    experience blocks run down the right. `display: contents` on the
    wrapper lets the still and the education card join the section's own
    grid without touching the markup. */
-/* "Kinh Nghiệm" is far longer than "Portfolio" or "Showreel", so its
-   ghost runs at a smaller scale to stay inside the container. */
 .services > .container {
     --ghost-text: 'KINH NGHIỆM';
-    --ghost-size: clamp(2.2rem, 8.2vw, 7rem);
 }
 
 /* This container is a grid only at desktop. Below that the pseudo-element
