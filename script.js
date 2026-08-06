@@ -77,7 +77,7 @@ window.addEventListener('scroll', () => {
     const SLIDES = [
         { folder: 'ai-generate',   img: 'assets/ai-generate/p1-generate-ai.jpg',        title: 'AI Generate',        cat: 'AI WORKFLOWS',        meta: '4 dự án' },
         { folder: 'lighting',      img: 'assets/lighting/talkshow-setup.jpg',           title: 'Lighting & Context', cat: 'PHOTO / VIDEO SET UP', meta: '50 ảnh · 9 video' },
-        { folder: 'video-creator', img: 'assets/video-creator/colorgrading/after.jpg',  title: 'Video Creator',      cat: 'EDIT / MOTION / GRADE', meta: '22 video' },
+        { folder: 'video-creator', img: 'assets/video-creator/thumbs/video-creator-cover.jpg', title: 'Video Creator', cat: 'EDIT / MOTION / GRADE', meta: '22 video' },
         { folder: 'visual-design', img: 'assets/visual-design/poster/02.jpg',           title: 'Visual Design',      cat: 'POSTER / PRINTING',   meta: '6 thiết kế' }
     ];
 
