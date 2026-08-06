@@ -1216,7 +1216,9 @@ input:focus-visible,
     margin-top: 0;
 }
 
-.portfolio > .container > .pf-groups > .pf-group {
+/* Counted on the button, not the group: the group is display:contents at
+   desktop and generates no box to hang a counter on. */
+.portfolio > .container > .pf-groups > .pf-group > .pf-toggle {
     counter-increment: pf;
 }
 
@@ -1315,56 +1317,84 @@ input:focus-visible,
     z-index: 2;
 }
 
-/* Open state: the tall entry collapses to a bar, numeral and label side
-   by side so the 130px height still holds them. */
+/* Open state keeps the card exactly as it is. The group still spans the
+   full row so its contents get the whole width, but the card itself is
+   held to one column's width and stays put, rather than stretching into
+   a bar. Only the numeral changes, to mark which one is open. */
+/* The base folder rule flattens an open toggle to a 130px strip. That is
+   right for the nested levels, wrong here, where the card must not change
+   shape at all. */
 .portfolio > .container > .pf-groups > .pf-group.open > .pf-toggle {
-    flex-direction: row;
-    align-items: center;
-    /* flex-end was pinning the numeral to the right edge once the axis
-       turned horizontal. */
-    justify-content: flex-start;
-    gap: 1.35rem;
-    height: 118px;
-    padding: 1.4rem 1.6rem;
+    aspect-ratio: 3 / 4.15;
+    height: auto;
 }
 
-.portfolio > .container > .pf-groups > .pf-group.open > .pf-toggle::before {
-    font-size: 2.4rem;
-    margin-bottom: 0;
-    color: var(--accent-color);
+/* Opening an entry must not move the other three. `display: contents`
+   dissolves the group wrapper so its card and its body become grid items
+   in their own right: every card is pinned to row 1 in a fixed column,
+   and every body gets a row of its own below, spanning the full width.
+   Nothing reflows, because nothing changes track. */
+@media (min-width: 900px) {
+    .portfolio > .container > .pf-groups {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 1rem;
+        /* Rows are per-body and collapse to zero when shut. A row gap here
+           would stack four dead gaps under the cards. */
+        row-gap: 0;
+    }
+
+    .portfolio > .container > .pf-groups > .pf-group {
+        display: contents;
+    }
+
+    .portfolio > .container > .pf-groups > .pf-group > .pf-toggle {
+        grid-row: 1;
+        width: auto;
+    }
+
+    .portfolio > .container > .pf-groups > .pf-group:nth-child(1) > .pf-toggle { grid-column: 1; }
+    .portfolio > .container > .pf-groups > .pf-group:nth-child(2) > .pf-toggle { grid-column: 2; }
+    .portfolio > .container > .pf-groups > .pf-group:nth-child(3) > .pf-toggle { grid-column: 3; }
+    .portfolio > .container > .pf-groups > .pf-group:nth-child(4) > .pf-toggle { grid-column: 4; }
+
+    /* A row each, so two open at once never land in the same cell. */
+    .portfolio > .container > .pf-groups > .pf-group > .pf-body {
+        grid-column: 1 / -1;
+    }
+
+    .portfolio > .container > .pf-groups > .pf-group:nth-child(1) > .pf-body { grid-row: 2; }
+    .portfolio > .container > .pf-groups > .pf-group:nth-child(2) > .pf-body { grid-row: 3; }
+    .portfolio > .container > .pf-groups > .pf-group:nth-child(3) > .pf-body { grid-row: 4; }
+    .portfolio > .container > .pf-groups > .pf-group:nth-child(4) > .pf-body { grid-row: 5; }
+
+    .portfolio > .container > .pf-groups > .pf-group.open > .pf-body > .pf-body-inner {
+        padding-top: 2.5rem;
+    }
 }
 
-.portfolio > .container > .pf-groups > .pf-group.open > .pf-toggle .pf-arrow {
-    top: 50%;
-    margin-top: -0.9rem;
-}
-
-/* With one entry expanded, the whole index becomes a vertical list. Left
-   as a four-column grid, the open entry spans every column and the
-   remaining tiles strand themselves beside three empty cells. */
-.portfolio > .container > .pf-groups:has(> .pf-group.open) {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-}
-
+/* The unselected entries hold their place and simply step back. */
 .portfolio > .container > .pf-groups:has(> .pf-group.open) > .pf-group:not(.open) > .pf-toggle {
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1.35rem;
-    aspect-ratio: auto;
-    height: 92px;
-    padding: 1.2rem 1.6rem;
+    opacity: 0.55;
 }
 
-.portfolio > .container > .pf-groups:has(> .pf-group.open) > .pf-group:not(.open) > .pf-toggle::before {
-    font-size: 1.9rem;
-    margin-bottom: 0;
+.portfolio > .container > .pf-groups:has(> .pf-group.open) > .pf-group:not(.open) > .pf-toggle:hover,
+.portfolio > .container > .pf-groups:has(> .pf-group.open) > .pf-group:not(.open) > .pf-toggle:focus-visible {
+    opacity: 1;
 }
 
-.portfolio > .container > .pf-groups:has(> .pf-group.open) > .pf-group:not(.open) > .pf-toggle .pf-arrow {
-    top: 50%;
-    margin-top: -0.9rem;
+/* The open one glows: a champagne rim plus a soft bloom in the same hue,
+   tinted rather than white so it reads as lit, not neon. */
+.portfolio > .container > .pf-groups > .pf-group.open > .pf-toggle {
+    border-color: rgba(201, 174, 144, 0.55);
+    box-shadow:
+        0 0 0 1px rgba(201, 174, 144, 0.28),
+        0 0 34px -6px rgba(201, 174, 144, 0.42),
+        0 22px 48px -26px rgba(0, 0, 0, 0.95);
+}
+
+.portfolio > .container > .pf-groups > .pf-group.open > .pf-toggle .pf-cover {
+    filter: grayscale(0%) brightness(0.6);
 }
 
 @media (max-width: 899px) {

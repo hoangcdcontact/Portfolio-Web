@@ -386,22 +386,57 @@ document.querySelectorAll('.photo-grid[data-gallery]').forEach(grid => {
     grid.innerHTML = html;
 });
 
-// Portfolio groups: folder-style accordion
+// Portfolio groups: folder-style accordion, one open per level.
+// Shutting a folder also collapses whatever was left open inside it, so
+// reopening it later starts from the folder view rather than restoring a
+// deep expansion the visitor has long forgotten about.
+const collapseInside = group => {
+    group.querySelectorAll('.pf-group.open').forEach(inner => {
+        inner.classList.remove('open');
+        const innerToggle = inner.querySelector(':scope > .pf-toggle');
+        if (innerToggle) innerToggle.setAttribute('aria-expanded', 'false');
+    });
+};
+
+const closePfGroup = group => {
+    group.classList.remove('open');
+
+    const own = group.querySelector(':scope > .pf-toggle');
+    if (own) own.setAttribute('aria-expanded', 'false');
+
+    collapseInside(group);
+};
+
 document.querySelectorAll('.pf-group').forEach(group => {
-    const toggle = group.querySelector('.pf-toggle');
+    const toggle = group.querySelector(':scope > .pf-toggle');
     if (!toggle) return;
 
     toggle.addEventListener('click', () => {
         const isOpen = group.classList.toggle('open');
         toggle.setAttribute('aria-expanded', String(isOpen));
 
-        // Items inside were never scrolled into view while collapsed,
-        // so reveal them immediately on open.
         if (isOpen) {
+            // Only siblings of the same level close. A nested folder opening
+            // must not shut the parent it lives in.
+            const level = group.parentElement;
+            if (level) {
+                Array.from(level.children).forEach(sibling => {
+                    if (sibling !== group && sibling.classList.contains('open')) {
+                        closePfGroup(sibling);
+                    }
+                });
+            }
+
+            // Items inside were never scrolled into view while collapsed,
+            // so reveal them immediately on open.
             group.querySelectorAll('.project, .portfolio-item').forEach(el => {
                 el.style.opacity = '1';
                 el.style.transform = 'translateY(0)';
             });
+        } else {
+            // Shut by its own button. Reset what is inside too, so it does
+            // not spring back open mid-expansion next time.
+            collapseInside(group);
         }
     });
 });
